@@ -1,4 +1,4 @@
----
+﻿---
 // frontend/astro/src/pages/index.astro
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Hero from "../components/Hero.astro";
@@ -8,27 +8,28 @@ import StatsBar from "../components/home/StatsBar.astro";
 import AboutSection from "../components/home/AboutSection.astro";
 import ContactSection from "../components/home/ContactSection.astro";
 
-const title = "Tu Aventura de Surf en Perú";
+const title = "Your Surf Adventure in Peru";
 const description =
-	"Explora las mejores olas, gastronomía y cultura de la costa peruana con Spots to Surf Peru. Paquetes desde Máncora hasta Lima.";
+	"Explore Peru's best waves, cuisine, and culture with Spots to Surf Peru. Trips from Mancora to Lima.";
 ---
 
 <BaseLayout title={title} description={description}>
 	<!-- 1. Hero Moderno estilo Costa Peruana -->
 	<Hero />
 
-	<!-- 2. Sección Aventuras (Cards categorías) -->
+	<!-- 2. SecciÃ³n Aventuras (Cards categorÃ­as) -->
 	<AdventureGrid />
 
-	<!-- 3. Sección Destinos con Scroll/Grid colorido -->
+	<!-- 3. SecciÃ³n Destinos con Scroll/Grid colorido -->
 	<DestinationsGrid />
 
-	<!-- 4. Barra de Estadísticas Azul -->
+	<!-- 4. Barra de EstadÃ­sticas Azul -->
 	<StatsBar />
 
-	<!-- 5. Sección Nosotros (Texto + Imagen circular) -->
+	<!-- 5. SecciÃ³n Nosotros (Texto + Imagen circular) -->
 	<AboutSection />
 
-	<!-- 6. Sección Contacto Azul con Formulario -->
+	<!-- 6. SecciÃ³n Contacto Azul con Formulario -->
 	<ContactSection />
 </BaseLayout>
+

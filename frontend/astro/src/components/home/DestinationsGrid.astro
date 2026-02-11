@@ -1,5 +1,52 @@
----
+﻿---
 // frontend/astro/src/components/home/DestinationsGrid.astro
+const packs = [
+    {
+        title: "Lima Surf",
+        image: "/images/surf.webp",
+        price: "US$ 240",
+        description:
+            "Guided surf across four Lima beaches with local support throughout the day.",
+        includes:
+            "Includes mandatory surf lessons and orientation at each spot.",
+        highlights: [
+            "Punta Rocas",
+            "La Herradura",
+            "Playa Norte",
+            "San Bartolo",
+        ],
+    },
+    {
+        title: "Lima Kite Surf",
+        image: "/images/kite.webp",
+        price: "US$ 290",
+        description:
+            "Kitesurf across four south Lima beaches with safety and logistics support.",
+        includes:
+            "Includes mandatory kitesurf lessons and guidance at every session.",
+        highlights: ["Playa Norte", "Senoritas", "Caballeros", "San Bartolo"],
+    },
+    {
+        title: "Paragliding",
+        image: "/images/paragliding.webp",
+        price: "US$ 180",
+        description:
+            "1 class and an assisted paragliding flight with a certified instructor.",
+        includes:
+            "Includes 1 class, assisted flight, and safety briefing.",
+        highlights: ["1 Class", "Assisted flight", "Instructor"],
+    },
+    {
+        title: "Tandem",
+        image: "/images/tandem.webp",
+        price: "US$ 350",
+        description:
+            "1 class and 1 tandem jump with an expert jumpmaster, a retired Peruvian Navy commando.",
+        includes:
+            "Includes 1 class, 1 jump, and safety briefing.",
+        highlights: ["1 Class", "1 Jump", "Expert instructor"],
+    },
+];
 ---
 
 <section class="py-24 bg-gray-50/50">
@@ -8,215 +55,63 @@
             <span
                 class="inline-block px-4 py-1.5 rounded-full bg-blue-50 text-secondary text-xs font-bold uppercase tracking-widest border border-blue-200 mb-4"
             >
-                Destinos Surf
+                Packs
             </span>
             <h2 class="font-serif text-5xl text-gray-900 leading-tight mb-4">
-                Explora la <span class="text-secondary">Costa Peruana</span>
+                Lima Adventure <span class="text-secondary">Packs</span>
             </h2>
             <p class="text-gray-500 max-w-2xl mx-auto">
-                Desde los tubos perfectos del norte hasta las izquierdas
-                interminables del centro, Perú es el paraíso de todo surfer.
+                Four experiences designed for surf, kitesurf, paragliding, and
+                tandem, with mandatory training and guidance.
             </p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <!-- Destination 1: Cabo Blanco -->
-            <div
-                class="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 group flex flex-col"
-            >
-                <div class="h-48 overflow-hidden relative">
-                    <img
-                        src="/images/caboblanco.webp"
-                        alt="Cabo Blanco"
-                        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                        loading="lazy"
-                        decoding="async"
-                        width="400"
-                        height="300"
-                    />
-                    <div
-                        class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm text-gray-900 text-xs font-bold px-2 py-1 rounded-lg"
-                    >
-                        5.0 ★
+            {packs.map((pack) => (
+                <div class="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 group flex flex-col">
+                    <div class="h-48 overflow-hidden relative">
+                        <img
+                            src={pack.image}
+                            alt={pack.title}
+                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                            loading="lazy"
+                            decoding="async"
+                            width="400"
+                            height="300"
+                        />
+                        <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm text-gray-900 text-xs font-bold px-2 py-1 rounded-lg">
+                            {pack.price}
+                        </div>
+                    </div>
+                    <div class="p-6 flex-grow flex flex-col">
+                        <h3 class="font-serif text-2xl font-bold text-gray-900">
+                            {pack.title}
+                        </h3>
+                        <p class="text-sm text-gray-500 mt-3 mb-4">
+                            {pack.description}
+                        </p>
+                        <p class="text-xs font-semibold text-secondary uppercase tracking-wide mb-3">
+                            {pack.includes}
+                        </p>
+                        <div class="flex flex-wrap gap-2 mt-auto mb-5">
+                            {pack.highlights.map((item) => (
+                                <span class="text-[10px] bg-blue-50 px-2 py-1 rounded text-secondary font-bold">
+                                    {item}
+                                </span>
+                            ))}
+                        </div>
+                        <button
+                            type="button"
+                            class="bg-secondary text-white px-5 py-2 rounded-xl font-bold shadow-lg shadow-blue-900/20 opacity-50 cursor-not-allowed"
+                            disabled
+                            aria-disabled="true"
+                        >
+                            Buy now
+                        </button>
                     </div>
                 </div>
-                <div class="p-6 flex-grow flex flex-col">
-                    <span
-                        class="text-xs font-bold text-secondary uppercase tracking-wide"
-                        >Piura</span
-                    >
-                    <h3
-                        class="font-serif text-2xl font-bold text-gray-900 mt-1 mb-3"
-                    >
-                        Cabo Blanco
-                    </h3>
-                    <p class="text-sm text-gray-500 mb-4 line-clamp-3">
-                        El tubo más perfecto y famoso del Perú. Una ola potente
-                        y rápida para surfers experimentados.
-                    </p>
-                    <div class="flex flex-wrap gap-2 mt-auto">
-                        <span
-                            class="text-[10px] bg-blue-50 px-2 py-1 rounded text-secondary font-bold"
-                            >Barrels</span
-                        >
-                        <span
-                            class="text-[10px] bg-blue-50 px-2 py-1 rounded text-secondary font-bold"
-                            >Expert</span
-                        >
-                    </div>
-                </div>
-            </div>
-
-            <!-- Destination 2: Chicama -->
-            <div
-                class="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 group flex flex-col"
-            >
-                <div class="h-48 overflow-hidden relative">
-                    <img
-                        src="/images/chicama.webp"
-                        alt="Chicama"
-                        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                        loading="lazy"
-                        decoding="async"
-                        width="400"
-                        height="300"
-                    />
-                    <div
-                        class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm text-gray-900 text-xs font-bold px-2 py-1 rounded-lg"
-                    >
-                        5.0 ★
-                    </div>
-                </div>
-                <div class="p-6 flex-grow flex flex-col">
-                    <span
-                        class="text-xs font-bold text-secondary uppercase tracking-wide"
-                        >La Libertad</span
-                    >
-                    <h3
-                        class="font-serif text-2xl font-bold text-gray-900 mt-1 mb-3"
-                    >
-                        Chicama
-                    </h3>
-                    <p class="text-sm text-gray-500 mb-4 line-clamp-3">
-                        Hogar de la ola izquierda más larga del mundo. Un sueño
-                        hecho realidad para cualquier surfer de nivel intermedio
-                        o avanzado.
-                    </p>
-                    <div class="flex flex-wrap gap-2 mt-auto">
-                        <span
-                            class="text-[10px] bg-blue-50 px-2 py-1 rounded text-secondary font-bold"
-                            >Endless Left</span
-                        >
-                        <span
-                            class="text-[10px] bg-blue-50 px-2 py-1 rounded text-secondary font-bold"
-                            >Pro</span
-                        >
-                    </div>
-                </div>
-            </div>
-
-            <!-- Destination 3: Lobitos -->
-            <div
-                class="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 group flex flex-col"
-            >
-                <div class="h-48 overflow-hidden relative">
-                    <img
-                        src="/images/lobitos.webp"
-                        alt="Lobitos"
-                        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                        loading="lazy"
-                        decoding="async"
-                        width="400"
-                        height="300"
-                    />
-                    <div
-                        class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm text-gray-900 text-xs font-bold px-2 py-1 rounded-lg"
-                    >
-                        4.8 ★
-                    </div>
-                </div>
-                <div class="p-6 flex-grow flex flex-col">
-                    <span
-                        class="text-xs font-bold text-secondary uppercase tracking-wide"
-                        >Piura</span
-                    >
-                    <h3
-                        class="font-serif text-2xl font-bold text-gray-900 mt-1 mb-3"
-                    >
-                        Lobitos
-                    </h3>
-                    <p class="text-sm text-gray-500 mb-4 line-clamp-3">
-                        Varios spots de clase mundial en una bahía desértica.
-                        Olas consistentes y de gran calidad durante todo el año.
-                    </p>
-                    <div class="flex flex-wrap gap-2 mt-auto">
-                        <span
-                            class="text-[10px] bg-blue-50 px-2 py-1 rounded text-secondary font-bold"
-                            >Quality Lefts</span
-                        >
-                        <span
-                            class="text-[10px] bg-blue-50 px-2 py-1 rounded text-secondary font-bold"
-                            >Consistent</span
-                        >
-                    </div>
-                </div>
-            </div>
-
-            <!-- Destination 4: Pacasmayo -->
-            <div
-                class="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 group flex flex-col"
-            >
-                <div class="h-48 overflow-hidden relative">
-                    <img
-                        src="/images/pacasmayo.webp"
-                        alt="Pacasmayo"
-                        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                        loading="lazy"
-                        decoding="async"
-                        width="400"
-                        height="300"
-                    />
-                    <div
-                        class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm text-gray-900 text-xs font-bold px-2 py-1 rounded-lg"
-                    >
-                        4.9 ★
-                    </div>
-                </div>
-                <div class="p-6 flex-grow flex flex-col">
-                    <span
-                        class="text-xs font-bold text-secondary uppercase tracking-wide"
-                        >La Libertad</span
-                    >
-                    <h3
-                        class="font-serif text-2xl font-bold text-gray-900 mt-1 mb-3"
-                    >
-                        Pacasmayo
-                    </h3>
-                    <p class="text-sm text-gray-500 mb-4 line-clamp-3">
-                        Conocida como una de las izquierdas más largas y
-                        consistentes. Ideal para surfistas que buscan recorrer
-                        largas distancias en una sola ola.
-                    </p>
-                    <div class="flex flex-wrap gap-2 mt-auto">
-                        <span
-                            class="text-[10px] bg-blue-50 px-2 py-1 rounded text-secondary font-bold"
-                            >Long Ride</span
-                        >
-                        <span
-                            class="text-[10px] bg-blue-50 px-2 py-1 rounded text-secondary font-bold"
-                            >Cruising</span
-                        >
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="mt-12 text-center">
-            <button
-                class="bg-secondary text-white px-8 py-3 rounded-xl font-bold hover:bg-opacity-90 transition-all shadow-lg shadow-blue-900/20"
-            >
-                Ver todos los Destinos
-            </button>
+            ))}
         </div>
     </div>
 </section>
+
