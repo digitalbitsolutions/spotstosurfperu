@@ -1,0 +1,83 @@
+---
+// frontend/astro/src/pages/contact.astro
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const title = "Contact Us";
+const description =
+    "Get in touch with Spots to Surf Peru to plan your next surf adventure.";
+---
+
+<BaseLayout title={title} description={description}>
+    <div class="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+        <h1 class="text-3xl font-bold mb-4">{title}</h1>
+        <p class="text-xl text-gray-600 mb-8">{description}</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div>
+                <h2 class="text-xl font-semibold mb-4">Contact Information</h2>
+                <p class="mb-4">Email: info@spotstosurfperu.com</p>
+                <p class="mb-4">WhatsApp: +34 653 252 923</p>
+                <p class="mb-4">Address: Miraflores, Lima - Perú</p>
+                <h3 class="text-lg font-medium mt-6 mb-2">Connect</h3>
+                <div class="flex space-x-4">
+                    <a href="#" class="text-blue-500 hover:text-blue-700"
+                        >Instagram</a
+                    >
+                    <a href="#" class="text-blue-500 hover:text-blue-700"
+                        >Facebook</a
+                    >
+                </div>
+            </div>
+
+            <div>
+                <h2 class="text-xl font-semibold mb-4">Send us a Message</h2>
+                <form class="space-y-4">
+                    <div>
+                        <label
+                            for="name"
+                            class="block text-sm font-medium text-gray-700"
+                            >Name</label
+                        >
+                        <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                        />
+                    </div>
+                    <div>
+                        <label
+                            for="email"
+                            class="block text-sm font-medium text-gray-700"
+                            >Email</label
+                        >
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                        />
+                    </div>
+                    <div>
+                        <label
+                            for="message"
+                            class="block text-sm font-medium text-gray-700"
+                            >Message</label
+                        >
+                        <textarea
+                            id="message"
+                            name="message"
+                            rows="4"
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                        ></textarea>
+                    </div>
+                    <button
+                        type="submit"
+                        class="inline-flex justify-center rounded-md border border-transparent bg-blue-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                        >Send Message</button
+                    >
+                </form>
+            </div>
+        </div>
+    </div>
+</BaseLayout>

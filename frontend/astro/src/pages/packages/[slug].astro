@@ -1,0 +1,68 @@
+---
+// frontend/astro/src/pages/packages/[slug].astro
+import BaseLayout from "../../layouts/BaseLayout.astro";
+// import { getPackageBySlug } from '../../lib/api'; // Future API Call
+
+export async function getStaticPaths() {
+    // If static, list all slugs here. If SSR, remove getStaticPaths
+    return [
+        {
+            params: { slug: "lima-surf-premium" },
+            props: {
+                title: "Lima Surf Premium",
+                description: "Experience luxury surfing in Lima.",
+            },
+        },
+        {
+            params: { slug: "north-shore-waves" },
+            props: {
+                title: "North Shore Waves",
+                description: "Ride the best waves in the north.",
+            },
+        },
+        {
+            params: { slug: "beginner-camp" },
+            props: {
+                title: "Beginner Surf Camp",
+                description: "Start your surfing journey.",
+            },
+        },
+    ];
+}
+
+const { slug } = Astro.params;
+const { title, description } = Astro.props;
+---
+
+<BaseLayout title={title} description={description}>
+    <article class="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+        <div class="mb-8">
+            <span
+                class="text-sm font-medium text-gray-500 uppercase tracking-wider"
+                >Surf Package</span
+            >
+            <h1 class="text-4xl font-extrabold text-gray-900 mt-2">{title}</h1>
+            <p class="text-xl text-gray-600 mt-4">{description}</p>
+        </div>
+
+        <div class="prose prose-lg mx-auto mb-12">
+            <!-- Content from WordPress Content/ACF -->
+            <p>This is a placeholder for the detailed package description.</p>
+            <ul>
+                <li>Duration: 5 Days</li>
+                <li>Starting Price: $1200</li>
+                <li>Included: Accommodation, Transport, Lessons</li>
+            </ul>
+        </div>
+
+        <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
+            <h3 class="text-lg font-bold mb-4">Interested in this package?</h3>
+            <a
+                href="/contact"
+                class="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition"
+            >
+                Book Now
+            </a>
+        </div>
+    </article>
+</BaseLayout>

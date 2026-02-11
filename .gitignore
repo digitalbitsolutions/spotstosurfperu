@@ -1,0 +1,24 @@
+.env
+**/.env
+
+# Node / Astro
+frontend/astro/node_modules/
+frontend/astro/dist/
+frontend/astro/.astro/
+frontend/astro/.vscode/
+
+# Frontend build archives
+frontend/*.zip
+frontend/**/*.zip
+
+# WordPress runtime
+backend/wordpress/wp-content/uploads/
+backend/wordpress/wp-content/upgrade/
+backend/wordpress/wp-content/cache/
+
+# Local archives
+backend_wordpress.zip
+
+# OS / editor
+.DS_Store
+Thumbs.db

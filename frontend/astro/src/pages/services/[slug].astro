@@ -1,0 +1,55 @@
+---
+// frontend/astro/src/pages/services/[slug].astro
+import BaseLayout from "../../layouts/BaseLayout.astro";
+// import { getServiceBySlug } from '../../lib/api'; // Future API Call
+
+export async function getStaticPaths() {
+    return [
+        {
+            params: { slug: "surf-lessons" },
+            props: {
+                title: "Surf Lessons",
+                description: "Beginner to advanced coaching.",
+            },
+        },
+        {
+            params: { slug: "transport" },
+            props: {
+                title: "Transport",
+                description: "Safe and reliable transfers.",
+            },
+        },
+        {
+            params: { slug: "board-rentals" },
+            props: {
+                title: "Board Rentals",
+                description: "Rent a board for the day or week.",
+            },
+        },
+    ];
+}
+
+const { slug } = Astro.params;
+const { title, description } = Astro.props;
+---
+
+<BaseLayout title={title} description={description}>
+    <div class="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+        <h1 class="text-3xl font-bold mb-4">{title}</h1>
+        <p class="text-xl text-gray-600 mb-8">{description}</p>
+
+        <div class="bg-gray-50 border border-gray-200 rounded-lg p-8">
+            <h2 class="text-xl font-semibold mb-4">Pricing</h2>
+            <ul class="list-disc pl-5 space-y-2 mb-6 text-gray-700">
+                <li>Private Lesson (2h): $50</li>
+                <li>Group Lesson (2h): $35</li>
+                <li>Video Analysis: $20</li>
+            </ul>
+            <a
+                href="/contact"
+                class="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-blue-700 transition"
+                >Contact to Book</a
+            >
+        </div>
+    </div>
+</BaseLayout>

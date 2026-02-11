@@ -1,0 +1,53 @@
+---
+// frontend/astro/src/pages/services/index.astro
+import BaseLayout from "../../layouts/BaseLayout.astro";
+// import { getServices } from '../../lib/api'; // Placeholder for future Data Fetching
+
+const title = "Services & Activities";
+// const services = await getServices();
+const services = [
+    {
+        title: "Surf Lessons",
+        excerpt: "Professional coaching for all levels.",
+        slug: "surf-lessons",
+    },
+    {
+        title: "Transport",
+        excerpt: "Comfortable and safe transfers.",
+        slug: "transport",
+    },
+    {
+        title: "Board Rentals",
+        excerpt: "High-quality surfboards for rent.",
+        slug: "board-rentals",
+    },
+];
+---
+
+<BaseLayout
+    title={title}
+    description="Additional services to enhance your surf trip."
+>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <h1 class="text-3xl font-bold mb-8">{title}</h1>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {
+                services.map((service) => (
+                    <div class="bg-white rounded-lg border border-gray-200 p-6 hover:translate-y-[-2px] transition shadow-sm hover:shadow-md">
+                        <h2 class="text-xl font-bold mb-2 text-gray-900">
+                            {service.title}
+                        </h2>
+                        <p class="text-gray-600 mb-4">{service.excerpt}</p>
+                        <a
+                            href={`/services/${service.slug}`}
+                            class="text-blue-600 font-medium hover:underline inline-block mt-2"
+                        >
+                            Learn More &rarr;
+                        </a>
+                    </div>
+                ))
+            }
+        </div>
+    </div>
+</BaseLayout>

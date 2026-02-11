@@ -1,0 +1,34 @@
+---
+// frontend/astro/src/pages/index.astro
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/Hero.astro";
+import AdventureGrid from "../components/home/AdventureGrid.astro";
+import DestinationsGrid from "../components/home/DestinationsGrid.astro";
+import StatsBar from "../components/home/StatsBar.astro";
+import AboutSection from "../components/home/AboutSection.astro";
+import ContactSection from "../components/home/ContactSection.astro";
+
+const title = "Tu Aventura de Surf en Perú";
+const description =
+	"Explora las mejores olas, gastronomía y cultura de la costa peruana con Spots to Surf Peru. Paquetes desde Máncora hasta Lima.";
+---
+
+<BaseLayout title={title} description={description}>
+	<!-- 1. Hero Moderno estilo Costa Peruana -->
+	<Hero />
+
+	<!-- 2. Sección Aventuras (Cards categorías) -->
+	<AdventureGrid />
+
+	<!-- 3. Sección Destinos con Scroll/Grid colorido -->
+	<DestinationsGrid />
+
+	<!-- 4. Barra de Estadísticas Azul -->
+	<StatsBar />
+
+	<!-- 5. Sección Nosotros (Texto + Imagen circular) -->
+	<AboutSection />
+
+	<!-- 6. Sección Contacto Azul con Formulario -->
+	<ContactSection />
+</BaseLayout>

@@ -1,0 +1,48 @@
+---
+interface Props {
+    icon: string;
+    title: string;
+    description: string;
+    image: string;
+    tags: string[];
+    iconColorClass: string;
+}
+
+const { icon, title, description, image, tags, iconColorClass } = Astro.props;
+---
+
+<div
+    class="group relative overflow-hidden rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-xl transition-all duration-500"
+>
+    <div class="aspect-[16/9] overflow-hidden">
+        <img
+            alt={title}
+            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+            src={image}
+        />
+    </div>
+    <div
+        class={`absolute top-4 left-4 w-10 h-10 bg-white dark:bg-slate-800 rounded-lg shadow-lg flex items-center justify-center ${iconColorClass}`}
+    >
+        <span class="material-symbols-rounded">{icon}</span>
+    </div>
+    <div class="p-8">
+        <h3 class="font-display text-2xl text-deep dark:text-white mb-3">
+            {title}
+        </h3>
+        <p
+            class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed mb-6"
+        >
+            {description}
+        </p>
+        <div class="flex flex-wrap gap-2">
+            {
+                tags.map((tag) => (
+                    <span class="px-3 py-1 bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400 text-[10px] font-bold rounded-full uppercase border border-slate-100 dark:border-slate-700">
+                        {tag}
+                    </span>
+                ))
+            }
+        </div>
+    </div>
+</div>

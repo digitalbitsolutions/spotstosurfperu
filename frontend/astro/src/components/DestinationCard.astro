@@ -1,0 +1,64 @@
+---
+interface Props {
+    image: string;
+    location: string;
+    name: string;
+    description: string;
+    rating: string;
+    tags: string[];
+}
+
+const { image, location, name, description, rating, tags } = Astro.props;
+---
+
+<div
+    class="group bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden hover:-translate-y-2 transition-all duration-300"
+>
+    <div class="relative h-48 overflow-hidden">
+        <img
+            alt={name}
+            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+            src={image}
+        />
+        <div
+            class="absolute top-3 right-3 bg-white/90 backdrop-blur-md px-2 py-1 rounded-lg flex items-center gap-1 text-[10px] font-bold shadow-md"
+        >
+            <span class="material-symbols-rounded text-yellow-500 text-xs"
+                >star</span
+            >
+            {rating}
+        </div>
+    </div>
+    <div class="p-6">
+        <div
+            class="flex items-center gap-1 text-slate-400 text-[10px] uppercase font-bold mb-2"
+        >
+            <span class="material-symbols-rounded text-xs">location_on</span>
+            {location}
+        </div>
+        <h4 class="font-display text-xl text-deep dark:text-white mb-2">
+            {name}
+        </h4>
+        <p class="text-slate-500 dark:text-slate-400 text-xs mb-6 line-clamp-2">
+            {description}
+        </p>
+        <div class="flex flex-wrap gap-2 mb-6">
+            {
+                tags.map((tag) => (
+                    <span class="text-[9px] font-bold text-slate-400 border border-slate-100 dark:border-slate-800 px-2 py-1 rounded-md italic">
+                        {tag}
+                    </span>
+                ))
+            }
+        </div>
+        <a
+            class="text-secondary text-xs font-bold flex items-center gap-2 group/link"
+            href="#"
+        >
+            Explorar <span
+                class="material-symbols-rounded text-sm group-hover/link:translate-x-1 transition-transform"
+                >arrow_forward</span
+            >
+        </a>
+    </div>
+</div>

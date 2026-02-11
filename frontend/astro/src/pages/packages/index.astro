@@ -1,0 +1,40 @@
+---
+// frontend/astro/src/pages/packages/index.astro
+import BaseLayout from '../../layouts/BaseLayout.astro';
+// import { getPackages } from '../../lib/api'; // Placeholder for future Data Fetching
+
+const title = "Surf Packages";
+// const packages = await getPackages(); 
+const packages = [
+	{ title: "Lima Surf Premium", duration: "5 Days", excerpt: "Luxury surf trip in Lima.", slug: "lima-surf-premium" },
+	{ title: "North Shore Wave Hunt", duration: "7 Days", excerpt: "Explore the best waves in the North.", slug: "north-shore-waves" },
+	{ title: "Beginner Surf Camp", duration: "7 Days", excerpt: "Perfect for beginners.", slug: "beginner-camp" },
+];
+---
+
+<BaseLayout title={title} description="Explore our curated surf packages in Peru.">
+	<h1 class="text-3xl font-bold mb-8">{title}</h1>
+
+	<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+		{packages.map((pkg) => (
+			<article class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-100 hover:shadow-lg transition">
+				<div class="h-48 bg-gray-200 w-full object-cover">
+					<!-- Image Placeholder -->
+					<span class="flex items-center justify-center h-full text-gray-500">Image</span>
+				</div>
+				<div class="p-6">
+					<h2 class="text-xl font-bold mb-2">
+						<a href={`/packages/${pkg.slug}`} class="hover:text-blue-600 transition">
+							{pkg.title}
+						</a>
+					</h2>
+					<p class="text-sm text-gray-500 mb-4">{pkg.duration}</p>
+					<p class="text-gray-600 mb-4">{pkg.excerpt}</p>
+					<a href={`/packages/${pkg.slug}`} class="text-blue-600 font-medium hover:underline block mt-auto">
+						View Details &rarr;
+					</a>
+				</div>
+			</article>
+		))}
+	</div>
+</BaseLayout>

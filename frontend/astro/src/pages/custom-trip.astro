@@ -1,0 +1,89 @@
+---
+// frontend/astro/src/pages/custom-trip.astro
+import BaseLayout from "../layouts/BaseLayout.astro";
+// import CustomTripForm from '../components/forms/CustomTripForm.astro'; // Placeholder
+
+const title = "Design Your Custom Trip";
+const description =
+    "Tell us about your dream surf trip and we'll make it happen.";
+---
+
+<BaseLayout title={title} description={description}>
+    <div class="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+        <h1 class="text-3xl font-bold mb-4">{title}</h1>
+        <p class="text-gray-600 mb-8 max-w-2xl">{description}</p>
+
+        <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+            <div class="mb-4">
+                <label
+                    class="block text-gray-700 text-sm font-bold mb-2"
+                    for="name"
+                >
+                    Name
+                </label>
+                <input
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    id="name"
+                    type="text"
+                    placeholder="Your Name"
+                />
+            </div>
+
+            <div class="mb-4">
+                <label
+                    class="block text-gray-700 text-sm font-bold mb-2"
+                    for="email"
+                >
+                    Email
+                </label>
+                <input
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    id="email"
+                    type="email"
+                    placeholder="email@example.com"
+                />
+            </div>
+
+            <div class="mb-4">
+                <label
+                    class="block text-gray-700 text-sm font-bold mb-2"
+                    for="trip-type"
+                >
+                    Trip Type
+                </label>
+                <select
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    id="trip-type"
+                >
+                    <option>Surf Focused</option>
+                    <option>Chill & Relax</option>
+                    <option>Adventure</option>
+                    <option>Family Trip</option>
+                </select>
+            </div>
+
+            <div class="mb-6">
+                <label
+                    class="block text-gray-700 text-sm font-bold mb-2"
+                    for="notes"
+                >
+                    Additional Notes
+                </label>
+                <textarea
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    id="notes"
+                    rows="4"
+                    placeholder="Any specific requirements..."></textarea>
+            </div>
+
+            <div class="flex items-center justify-between">
+                <button
+                    class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                    type="button"
+                >
+                    Send Request
+                </button>
+            </div>
+        </form>
+    </div>
+</BaseLayout>
