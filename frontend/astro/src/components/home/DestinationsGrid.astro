@@ -1,50 +1,121 @@
 ﻿---
 // frontend/astro/src/components/home/DestinationsGrid.astro
+const checkoutBase =
+    import.meta.env.PUBLIC_WP_CHECKOUT_BASE ?? "/checkout/?add-to-cart=";
+
 const packs = [
     {
-        title: "Lima Surf",
+        title: "Lima Surf Pack",
         image: "/images/surf.webp",
-        price: "US$ 240",
+        price: "US$ 560",
+        badge: "4 Days",
+        meta: "4 Days / 3 Nights • Lima",
+        productId: 110,
         description:
-            "Guided surf across four Lima beaches with local support throughout the day.",
+            "Surf four iconic Lima beaches with daily sessions, airport pickup, lodging, and meals.",
         includes:
-            "Includes mandatory surf lessons and orientation at each spot.",
-        highlights: [
-            "Punta Rocas",
-            "La Herradura",
-            "Playa Norte",
-            "San Bartolo",
-        ],
+            "Includes airport transfer, lodging, meals, and daily surf coaching.",
+        highlights: ["Caballeros", "Senoritas", "Playa Norte", "El Silencio"],
+        ctaLabel: "Book Lima Surf",
     },
     {
-        title: "Lima Kite Surf",
+        title: "Lima Kitesurf Pack",
         image: "/images/kite.webp",
-        price: "US$ 290",
+        price: "US$ 1,080",
+        badge: "4 Days",
+        meta: "4 Days / 3 Nights • Lima",
+        productId: 111,
         description:
-            "Kitesurf across four south Lima beaches with safety and logistics support.",
+            "Kitesurf four Lima beaches with coaching, airport pickup, lodging, and meals.",
         includes:
-            "Includes mandatory kitesurf lessons and guidance at every session.",
-        highlights: ["Playa Norte", "Senoritas", "Caballeros", "San Bartolo"],
+            "Includes airport transfer, lodging, meals, and kitesurf sessions.",
+        highlights: ["Caballeros", "Senoritas", "Playa Norte", "El Silencio"],
+        ctaLabel: "Book Lima Kitesurf",
     },
     {
-        title: "Paragliding",
+        title: "Lima Paragliding Pack",
         image: "/images/paragliding.webp",
-        price: "US$ 180",
+        price: "US$ 210",
+        badge: "2 Days",
+        meta: "2 Days / 1 Night • Lima",
+        productId: 112,
         description:
-            "1 class and an assisted paragliding flight with a certified instructor.",
+            "Paragliding over the Costa Verde with certified pilots, airport pickup, lodging, and meals.",
         includes:
-            "Includes 1 class, assisted flight, and safety briefing.",
-        highlights: ["1 Class", "Assisted flight", "Instructor"],
+            "Includes paragliding flight, airport transfer, lodging, and meals.",
+        highlights: ["San Miguel", "Magdalena", "San Isidro", "Miraflores"],
+        ctaLabel: "Book Paragliding",
     },
     {
-        title: "Tandem",
+        title: "Tandem Pack",
         image: "/images/tandem.webp",
-        price: "US$ 350",
+        price: "US$ 1,190",
+        badge: "2 Jumps",
+        meta: "2 Days / 1 Night • Lima + South Coast",
+        productId: 113,
         description:
-            "1 class and 1 tandem jump with an expert jumpmaster, a retired Peruvian Navy commando.",
+            "Two classes and two tandem skydives with full briefing, airport pickup, lodging, and meals.",
         includes:
-            "Includes 1 class, 1 jump, and safety briefing.",
-        highlights: ["1 Class", "1 Jump", "Expert instructor"],
+            "Includes 2 tandem jumps, safety briefing, transfers, lodging, and meals.",
+        highlights: ["San Bartolo", "Santa Maria", "Paracas", "Lima"],
+        ctaLabel: "Book Tandem",
+    },
+    {
+        title: "Blue Crash",
+        image: "/images/costaperuana.webp",
+        price: "US$ 1,730",
+        badge: "8 Days",
+        meta: "8 Days / 7 Nights • Lima to Mancora",
+        productId: 114,
+        description:
+            "Surf classes and practice across Lima, Huanchaco, Pimentel, and Mancora, two beaches per stop.",
+        includes:
+            "Includes airport transfers, lodging, meals, and guided surf sessions.",
+        highlights: ["Lima", "Huanchaco", "Pimentel", "Mancora"],
+        ctaLabel: "Book Blue Crash",
+        featured: true,
+    },
+    {
+        title: "Point Break",
+        image: "/images/hero.webp",
+        price: "US$ 1,170",
+        badge: "4 Days",
+        meta: "4 Days / 3 Nights • Lima",
+        productId: 115,
+        description:
+            "One day of surf, one day of kitesurf, one day of paragliding, and one day of tandem.",
+        includes:
+            "Includes airport transfers, lodging, meals, and all activity sessions.",
+        highlights: ["Caballeros", "Playa Norte", "Miraflores", "San Bartolo"],
+        ctaLabel: "Book Point Break",
+    },
+    {
+        title: "G.I Trip",
+        image: "/images/pacasmayo.webp",
+        price: "US$ 1,460",
+        badge: "5 Days",
+        meta: "5 Days / 4 Nights • Lima",
+        productId: 116,
+        description:
+            "Surf, kitesurf, diving, paragliding, and tandem skydive in five action-packed days.",
+        includes:
+            "Includes airport transfers, lodging, meals, and all activity sessions.",
+        highlights: ["Caballeros", "Pucusana", "Miraflores", "San Bartolo"],
+        ctaLabel: "Book G.I Trip",
+    },
+    {
+        title: "FOES Trip",
+        image: "/images/mmatrainingwebp.webp",
+        price: "US$ 1,480",
+        badge: "6 Days",
+        meta: "6 Days / 5 Nights • Lima",
+        productId: 117,
+        description:
+            "Surf, kitesurf, paragliding, tandem skydive, plus an MMA training day.",
+        includes:
+            "Includes airport transfers, lodging, meals, and all activity sessions.",
+        highlights: ["Costa Verde", "Miraflores", "San Miguel", "San Bartolo"],
+        ctaLabel: "Book FOES Trip",
     },
 ];
 ---
@@ -58,18 +129,25 @@ const packs = [
                 Packs
             </span>
             <h2 class="font-serif text-5xl text-gray-900 leading-tight mb-4">
-                Lima Adventure <span class="text-secondary">Packs</span>
+                Adventure <span class="text-secondary">Packs</span>
             </h2>
             <p class="text-gray-500 max-w-2xl mx-auto">
-                Four experiences designed for surf, kitesurf, paragliding, and
-                tandem, with mandatory training and guidance.
+                Eight curated packs built around Lima adventures and
+                northbound surf routes, with lodging, meals, and transfers
+                included.
             </p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {packs.map((pack) => (
-                <div class="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 group flex flex-col">
-                    <div class="h-48 overflow-hidden relative">
+                <div
+                    class={`bg-white rounded-3xl overflow-hidden border border-gray-100 group flex flex-col transition-all duration-300 ${
+                        pack.featured
+                            ? "shadow-2xl ring-2 ring-secondary/30"
+                            : "shadow-lg hover:shadow-2xl"
+                    }`}
+                >
+                    <div class="h-52 overflow-hidden relative">
                         <img
                             src={pack.image}
                             alt={pack.title}
@@ -79,15 +157,26 @@ const packs = [
                             width="400"
                             height="300"
                         />
-                        <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm text-gray-900 text-xs font-bold px-2 py-1 rounded-lg">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent"></div>
+                        {pack.badge && (
+                            <div class="absolute top-4 left-4 bg-white/90 backdrop-blur-sm text-gray-900 text-xs font-bold px-3 py-1 rounded-full">
+                                {pack.badge}
+                            </div>
+                        )}
+                        <div class="absolute top-4 right-4 bg-secondary text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">
                             {pack.price}
                         </div>
                     </div>
                     <div class="p-6 flex-grow flex flex-col">
+                        {pack.meta && (
+                            <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">
+                                {pack.meta}
+                            </p>
+                        )}
                         <h3 class="font-serif text-2xl font-bold text-gray-900">
                             {pack.title}
                         </h3>
-                        <p class="text-sm text-gray-500 mt-3 mb-4">
+                        <p class="text-sm text-gray-600 mt-3 mb-4">
                             {pack.description}
                         </p>
                         <p class="text-xs font-semibold text-secondary uppercase tracking-wide mb-3">
@@ -100,18 +189,15 @@ const packs = [
                                 </span>
                             ))}
                         </div>
-                        <button
-                            type="button"
-                            class="bg-secondary text-white px-5 py-2 rounded-xl font-bold shadow-lg shadow-blue-900/20 opacity-50 cursor-not-allowed"
-                            disabled
-                            aria-disabled="true"
+                        <a
+                            href={`${checkoutBase}${pack.productId}`}
+                            class="bg-secondary text-white px-5 py-2 rounded-xl font-bold text-center shadow-lg shadow-blue-900/20 hover:bg-blue-700 transition"
                         >
-                            Buy now
-                        </button>
+                            {pack.ctaLabel}
+                        </a>
                     </div>
                 </div>
             ))}
         </div>
     </div>
 </section>
-

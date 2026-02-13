@@ -111,5 +111,5 @@
 
 ## Proximo Paso Inmediato
 
-**Ampliar el formulario de Providers dentro de STSP Logistic**
+**Mejorar la vista de producto (layout/espaciado/galería) en WooCommerce headless**
 

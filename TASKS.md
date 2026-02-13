@@ -11,6 +11,10 @@
 ## ðŸ”¥ Prioridad PrÃ³xima: Venta Online & Packs
 *Objetivo: Modelar y exponer los productos para que el frontend pueda consumirlos dinÃ¡micamente.*
 
+
+### ✅ Siguiente acción inmediata
+- [ ] **Mejorar la vista de producto (layout/espaciado/galería) en WooCommerce headless.**
+
 ### ðŸ› ï¸ Backend (Modelado de Datos)
 - [x] **STSP Logistic (Backoffice):**
   - Services (CPT `stsp_service`) con nombre unicamente.
@@ -62,7 +66,7 @@
 ---
 
 ## ðŸ“… Notas
-- **Ultima actualizacion:** 2026-02-10
-- **Enfoque actual:** Ampliar el formulario de Providers dentro de STSP Logistic.
+- **Ultima actualizacion:** 2026-02-12
+- **Enfoque actual:** Mejorar la vista de producto (layout/espaciado/galería) en WooCommerce headless.
 
 
