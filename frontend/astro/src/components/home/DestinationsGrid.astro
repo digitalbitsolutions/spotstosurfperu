@@ -1,7 +1,8 @@
 ﻿---
 // frontend/astro/src/components/home/DestinationsGrid.astro
 const checkoutBase =
-    import.meta.env.PUBLIC_WP_CHECKOUT_BASE ?? "/checkout/?add-to-cart=";
+    import.meta.env.PUBLIC_WP_CHECKOUT_BASE ??
+    "/wp/checkout/?add-to-cart=";
 
 const productBase =
     import.meta.env.PUBLIC_WP_PRODUCT_BASE ??
@@ -16,8 +17,8 @@ const productBase =
             }
         }
 
-        // Production-safe default (relative). Requires WP to be exposed on the same host.
-        return "/product/";
+        // Production-safe default (relative). WP is exposed under /wp on the same host.
+        return "/wp/product/";
     })();
 
 const productUrl = (slug) => {

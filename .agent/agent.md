@@ -18,7 +18,8 @@ Este documento guarda la informacion necesaria para conectar y desplegar sin exp
 - Usuario SSH: `spots2surfperu`
 - Home remoto: `/home/spots2surfperu`
 - Web root (Astro): `/home/spots2surfperu/public_html`
-- WordPress root: `/home/spots2surfperu/backend/wp`
+- WordPress publico (WooCommerce checkout/product): `/home/spots2surfperu/public_html/wp`
+- WordPress "backup"/fuente (no expuesto): `/home/spots2surfperu/backend/wp`
 - Dominio: `spotstosurfperu.com`
 
 ### SSH
@@ -38,9 +39,12 @@ Nota: la passphrase no se guarda aqui. Usar `ssh-agent` o introducirla manualmen
 3. `npm run build` (salida en `frontend/astro/dist`)
 4. Subir `dist/` a `/home/spots2surfperu/public_html` reemplazando el contenido.
 
-Ejemplo con rsync (Windows):
+Nota: en este host (jailshell) `rsync` no esta disponible. Usar `scp` + limpieza remota.
+
+Ejemplo (Windows):
 ```
-rsync -av --delete dist/ spots2surfperu@104.194.9.236:/home/spots2surfperu/public_html/ -e "ssh -p 9505 -i D:\spotstosurfperu.com\.secrets\id_rsa"
+ssh -i D:\spotstosurfperu.com\.secrets\id_rsa -p 9505 spots2surfperu@104.194.9.236 "cd /home/spots2surfperu/public_html && find . -maxdepth 1 -mindepth 1 ! -name wp ! -name .htaccess ! -name .well-known -exec rm -rf {} +"
+scp -i D:\spotstosurfperu.com\.secrets\id_rsa -P 9505 -r dist/* spots2surfperu@104.194.9.236:/home/spots2surfperu/public_html/
 ```
 
 ## Deploy del backend (WordPress headless)
@@ -48,13 +52,14 @@ Solo hay cambios en tema y plugins (no hay tema publico).
 
 Rutas:
 - Local tema: `backend/wordpress/wp-content/themes/headless`
-- Remoto tema: `/home/spots2surfperu/backend/wp/wp-content/themes/headless`
+- Remoto tema: `/home/spots2surfperu/public_html/wp/wp-content/themes/headless`
 - Local plugins: `backend/wordpress/wp-content/plugins`
-- Remoto plugins: `/home/spots2surfperu/backend/wp/wp-content/plugins`
+- Remoto plugins: `/home/spots2surfperu/public_html/wp/wp-content/plugins`
 
 Ejemplo (tema):
 ```
-rsync -av backend/wordpress/wp-content/themes/headless/ spots2surfperu@104.194.9.236:/home/spots2surfperu/backend/wp/wp-content/themes/headless/ -e "ssh -p 9505 -i D:\spotstosurfperu.com\.secrets\id_rsa"
+ssh -i D:\spotstosurfperu.com\.secrets\id_rsa -p 9505 spots2surfperu@104.194.9.236 "rm -rf /home/spots2surfperu/public_html/wp/wp-content/themes/headless/*"
+scp -i D:\spotstosurfperu.com\.secrets\id_rsa -P 9505 -r backend/wordpress/wp-content/themes/headless/* spots2surfperu@104.194.9.236:/home/spots2surfperu/public_html/wp/wp-content/themes/headless/
 ```
 
 ## Base de datos
