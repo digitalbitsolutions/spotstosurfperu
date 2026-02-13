@@ -1,68 +1,264 @@
 ---
 // frontend/astro/src/pages/packages/[slug].astro
 import BaseLayout from "../../layouts/BaseLayout.astro";
-// import { getPackageBySlug } from '../../lib/api'; // Future API Call
+import { travelPackages } from "../../data/packages";
+import { checkoutUrl } from "../../lib/wpUrls";
 
 export async function getStaticPaths() {
-    // If static, list all slugs here. If SSR, remove getStaticPaths
-    return [
-        {
-            params: { slug: "lima-surf-premium" },
-            props: {
-                title: "Lima Surf Premium",
-                description: "Experience luxury surfing in Lima.",
-            },
-        },
-        {
-            params: { slug: "north-shore-waves" },
-            props: {
-                title: "North Shore Waves",
-                description: "Ride the best waves in the north.",
-            },
-        },
-        {
-            params: { slug: "beginner-camp" },
-            props: {
-                title: "Beginner Surf Camp",
-                description: "Start your surfing journey.",
-            },
-        },
-    ];
+    return travelPackages.map((pack) => ({
+        params: { slug: pack.productSlug },
+        props: { pack },
+    }));
 }
 
 const { slug } = Astro.params;
-const { title, description } = Astro.props;
+const { pack } = Astro.props;
+
+const related = travelPackages
+    .filter((p) => p.productSlug !== slug)
+    .slice(0, 3);
 ---
 
-<BaseLayout title={title} description={description}>
-    <article class="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-        <div class="mb-8">
-            <span
-                class="text-sm font-medium text-gray-500 uppercase tracking-wider"
-                >Surf Package</span
-            >
-            <h1 class="text-4xl font-extrabold text-gray-900 mt-2">{title}</h1>
-            <p class="text-xl text-gray-600 mt-4">{description}</p>
-        </div>
+<BaseLayout title={pack.title} description={pack.description}>
+    <section class="pt-32 pb-16 bg-gray-50/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+                <div>
+                    <span
+                        class="inline-block px-4 py-1.5 rounded-full bg-blue-50 text-secondary text-xs font-bold uppercase tracking-widest border border-blue-200 mb-4"
+                    >
+                        Package
+                    </span>
+                    <h1
+                        class="font-serif text-5xl md:text-6xl text-gray-900 leading-tight"
+                    >
+                        {pack.title}
+                    </h1>
 
-        <div class="prose prose-lg mx-auto mb-12">
-            <!-- Content from WordPress Content/ACF -->
-            <p>This is a placeholder for the detailed package description.</p>
-            <ul>
-                <li>Duration: 5 Days</li>
-                <li>Starting Price: $1200</li>
-                <li>Included: Accommodation, Transport, Lessons</li>
-            </ul>
-        </div>
+                    {pack.meta && (
+                        <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mt-4">
+                            {pack.meta}
+                        </p>
+                    )}
 
-        <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
-            <h3 class="text-lg font-bold mb-4">Interested in this package?</h3>
-            <a
-                href="/contact"
-                class="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition"
-            >
-                Book Now
-            </a>
+                    <p class="text-gray-600 text-lg mt-6">
+                        {pack.description}
+                    </p>
+                    <p class="text-secondary font-bold uppercase tracking-wide text-xs mt-5">
+                        {pack.includes}
+                    </p>
+
+                    <div class="mt-8 flex flex-col sm:flex-row gap-4">
+                        <a
+                            href={checkoutUrl(pack.productId)}
+                            class="bg-primary text-white px-8 py-3 rounded-xl font-bold hover:bg-orange-700 transition-all shadow-lg shadow-orange-500/20 text-center"
+                        >
+                            Book Now
+                        </a>
+                        <a
+                            href="/#contact"
+                            class="px-8 py-3 rounded-xl font-bold border border-secondary text-secondary hover:bg-secondary hover:text-white transition-all text-center"
+                        >
+                            Ask Questions
+                        </a>
+                    </div>
+
+                    <p class="mt-6 text-sm text-gray-600">
+                        Groups and travel agencies: ask about discounted rates
+                        and coordinated logistics.
+                    </p>
+                </div>
+
+                <div class="relative h-80 md:h-[420px] rounded-3xl overflow-hidden shadow-2xl">
+                    <img
+                        src={pack.image}
+                        alt={pack.title}
+                        class="w-full h-full object-cover"
+                        loading="eager"
+                        decoding="async"
+                        width="900"
+                        height="600"
+                        fetchpriority="high"
+                    />
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-900/55 to-transparent"></div>
+
+                    {pack.badge && (
+                        <div class="absolute top-5 left-5 bg-white/90 backdrop-blur-sm text-gray-900 text-xs font-bold px-3 py-1 rounded-full">
+                            {pack.badge}
+                        </div>
+                    )}
+                    {pack.price && (
+                        <div class="absolute top-5 right-5 bg-secondary text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">
+                            {pack.price}
+                        </div>
+                    )}
+
+                    <div class="absolute bottom-5 left-5 right-5">
+                        <div class="flex flex-wrap gap-2">
+                            {pack.highlights.map((tag) => (
+                                <span class="text-[11px] bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-slate-800 font-bold">
+                                    {tag}
+                                </span>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </article>
+    </section>
+
+    <section class="py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-3 gap-10">
+            <div class="lg:col-span-2">
+                <h2 class="font-serif text-4xl text-gray-900">
+                    Highlights
+                </h2>
+                <p class="text-gray-600 mt-4 text-lg max-w-2xl">
+                    A quick overview of what makes this pack special. Want to
+                    swap destinations or add extra experiences? We can tailor
+                    it.
+                </p>
+
+                <ul class="mt-8 space-y-4">
+                    {pack.highlights.map((item) => (
+                        <li class="flex gap-3 items-start">
+                            <span class="material-symbols-rounded text-secondary text-base leading-6">
+                                check_circle
+                            </span>
+                            <div class="text-gray-700">{item}</div>
+                        </li>
+                    ))}
+                </ul>
+
+                <div class="mt-10 flex flex-col sm:flex-row gap-4">
+                    <a
+                        href={checkoutUrl(pack.productId)}
+                        class="bg-secondary text-white px-7 py-3 rounded-xl font-bold shadow-lg shadow-blue-900/20 hover:bg-blue-700 transition text-center"
+                    >
+                        Book This Package
+                    </a>
+                    <a
+                        href="/packages"
+                        class="px-7 py-3 rounded-xl font-bold border border-gray-200 text-gray-800 hover:bg-gray-50 transition text-center"
+                    >
+                        Back to Packages
+                    </a>
+                </div>
+            </div>
+
+            <aside class="bg-white rounded-3xl border border-gray-100 shadow-lg p-7">
+                <h3 class="font-serif text-2xl font-bold text-gray-900">
+                    Quick Info
+                </h3>
+                <div class="mt-5 space-y-3 text-sm text-gray-700">
+                    {pack.meta && (
+                        <div class="flex gap-2 items-start">
+                            <span class="material-symbols-rounded text-secondary text-base leading-6">
+                                event
+                            </span>
+                            <span>{pack.meta}</span>
+                        </div>
+                    )}
+                    <div class="flex gap-2 items-start">
+                        <span class="material-symbols-rounded text-secondary text-base leading-6">
+                            verified
+                        </span>
+                        <span>Guidance and planning from a local team</span>
+                    </div>
+                    <div class="flex gap-2 items-start">
+                        <span class="material-symbols-rounded text-secondary text-base leading-6">
+                            local_taxi
+                        </span>
+                        <span>Transport coordination available</span>
+                    </div>
+                    <div class="flex gap-2 items-start">
+                        <span class="material-symbols-rounded text-secondary text-base leading-6">
+                            groups
+                        </span>
+                        <span>Group and agency discounts on request</span>
+                    </div>
+                </div>
+
+                <div class="mt-8 border-t border-gray-100 pt-6">
+                    <a
+                        href="/#contact"
+                        class="inline-flex items-center justify-center w-full bg-primary text-white px-6 py-3 rounded-xl font-bold hover:bg-orange-700 transition shadow-lg shadow-orange-500/20"
+                    >
+                        Request Information
+                    </a>
+                    <a
+                        href="/services"
+                        class="mt-3 inline-flex items-center justify-center w-full px-6 py-3 rounded-xl font-bold border border-gray-200 text-gray-800 hover:bg-gray-50 transition"
+                    >
+                        Explore Experiences
+                    </a>
+                </div>
+            </aside>
+        </div>
+    </section>
+
+    {related.length > 0 && (
+        <section class="py-16 bg-gray-50/50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-end justify-between gap-6 mb-10">
+                    <div>
+                        <h2 class="font-serif text-4xl text-gray-900">
+                            Other packages
+                        </h2>
+                        <p class="text-gray-600 mt-3">
+                            Compare options and pick what matches your pace.
+                        </p>
+                    </div>
+                    <a
+                        href="/packages"
+                        class="hidden sm:inline-flex items-center gap-2 font-bold text-secondary hover:underline"
+                    >
+                        View all
+                        <span class="material-symbols-rounded text-base">
+                            arrow_forward
+                        </span>
+                    </a>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    {related.map((item, index) => (
+                        <a
+                            href={`/packages/${item.productSlug}`}
+                            class="group bg-white rounded-3xl overflow-hidden border border-gray-100 shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 flex flex-col"
+                        >
+                            <div class="h-44 overflow-hidden relative">
+                                <img
+                                    src={item.image}
+                                    alt={item.title}
+                                    class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                    loading={index === 0 ? "eager" : "lazy"}
+                                    decoding="async"
+                                    width="700"
+                                    height="420"
+                                />
+                                <div class="absolute inset-0 bg-gradient-to-t from-slate-900/70 to-transparent"></div>
+                            </div>
+                            <div class="p-6 flex-grow flex flex-col">
+                                <h3 class="font-serif text-2xl font-bold text-gray-900">
+                                    {item.title}
+                                </h3>
+                                <p class="text-sm text-gray-600 mt-3 leading-relaxed">
+                                    {item.description}
+                                </p>
+                                <div class="mt-auto pt-6 flex items-center justify-between">
+                                    <span class="text-secondary font-bold">
+                                        View details
+                                    </span>
+                                    <span class="material-symbols-rounded text-secondary group-hover:translate-x-1 transition-transform">
+                                        arrow_forward
+                                    </span>
+                                </div>
+                            </div>
+                        </a>
+                    ))}
+                </div>
+            </div>
+        </section>
+    )}
 </BaseLayout>
+

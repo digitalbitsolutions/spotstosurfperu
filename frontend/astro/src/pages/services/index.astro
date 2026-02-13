@@ -1,53 +1,206 @@
 ---
 // frontend/astro/src/pages/services/index.astro
 import BaseLayout from "../../layouts/BaseLayout.astro";
-// import { getServices } from '../../lib/api'; // Placeholder for future Data Fetching
+import { experiences } from "../../data/experiences";
 
-const title = "Services & Activities";
-// const services = await getServices();
-const services = [
-    {
-        title: "Surf Lessons",
-        excerpt: "Professional coaching for all levels.",
-        slug: "surf-lessons",
+const title = "Experiences";
+const description =
+    "Private transport, surf and kitesurf sessions, paragliding, tandem skydiving, MMA training, gastronomy, excursions, and custom packages across Peru.";
+
+const accents = {
+    ocean: {
+        chip: "text-[11px] bg-blue-50 px-3 py-1 rounded-full text-secondary font-bold",
+        icon: "text-secondary",
     },
-    {
-        title: "Transport",
-        excerpt: "Comfortable and safe transfers.",
-        slug: "transport",
+    sun: {
+        chip: "text-[11px] bg-orange-50 px-3 py-1 rounded-full text-primary font-bold",
+        icon: "text-primary",
     },
-    {
-        title: "Board Rentals",
-        excerpt: "High-quality surfboards for rent.",
-        slug: "board-rentals",
+    sky: {
+        chip: "text-[11px] bg-sky-50 px-3 py-1 rounded-full text-sky-700 font-bold",
+        icon: "text-sky-600",
     },
-];
+    green: {
+        chip: "text-[11px] bg-emerald-50 px-3 py-1 rounded-full text-emerald-700 font-bold",
+        icon: "text-emerald-600",
+    },
+    slate: {
+        chip: "text-[11px] bg-slate-100 px-3 py-1 rounded-full text-slate-700 font-bold",
+        icon: "text-slate-700",
+    },
+} as const;
 ---
 
 <BaseLayout
     title={title}
-    description="Additional services to enhance your surf trip."
+    description={description}
 >
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <h1 class="text-3xl font-bold mb-8">{title}</h1>
+    <section class="pt-32 pb-16 bg-gray-50/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-3xl">
+                <span
+                    class="inline-block px-4 py-1.5 rounded-full bg-blue-50 text-secondary text-xs font-bold uppercase tracking-widest border border-blue-200 mb-4"
+                >
+                    Experiences
+                </span>
+                <h1
+                    class="font-serif text-5xl md:text-6xl text-gray-900 leading-tight"
+                >
+                    Make Peru your playground. <span class="text-secondary"
+                        >We handle the logistics.</span
+                    >
+                </h1>
+                <p class="text-gray-600 text-lg mt-6">
+                    Safe airport transfers, coaching for surf and kitesurf,
+                    paragliding and tandem adventures, MMA training, gastronomy,
+                    and curated excursions. Pick one service or bundle a
+                    personalized package.
+                </p>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {
-                services.map((service) => (
-                    <div class="bg-white rounded-lg border border-gray-200 p-6 hover:translate-y-[-2px] transition shadow-sm hover:shadow-md">
-                        <h2 class="text-xl font-bold mb-2 text-gray-900">
-                            {service.title}
-                        </h2>
-                        <p class="text-gray-600 mb-4">{service.excerpt}</p>
-                        <a
-                            href={`/services/${service.slug}`}
-                            class="text-blue-600 font-medium hover:underline inline-block mt-2"
-                        >
-                            Learn More &rarr;
-                        </a>
-                    </div>
-                ))
-            }
+                <div class="mt-8 flex flex-col sm:flex-row gap-4">
+                    <a
+                        href="/#contact"
+                        class="bg-primary text-white px-8 py-3 rounded-xl font-bold hover:bg-opacity-90 transition-all shadow-lg shadow-orange-500/20 text-center"
+                    >
+                        Request Information
+                    </a>
+                </div>
+
+                <p class="mt-6 text-sm text-gray-600">
+                    Groups and travel agencies: ask about discounted rates and
+                    coordinated itineraries.
+                </p>
+            </div>
         </div>
-    </div>
+    </section>
+
+    <section id="experiences" class="py-16 scroll-mt-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">
+                <div class="max-w-2xl">
+                    <h2 class="font-serif text-4xl md:text-5xl text-gray-900">
+                        Everything we can arrange
+                    </h2>
+                    <p class="text-gray-600 mt-4 text-lg">
+                        Choose a single experience or combine several into one
+                        seamless trip.
+                    </p>
+                </div>
+                <a
+                    href="/#contact"
+                    class="inline-flex items-center justify-center px-7 py-3 rounded-xl font-bold border border-gray-200 text-gray-800 bg-white hover:bg-gray-50 transition shadow-sm"
+                >
+                    Ask for a Custom Quote
+                </a>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {experiences.map((exp, index) => (
+                    <a
+                        href={`/services/${exp.slug}`}
+                        class={`bg-white rounded-3xl overflow-hidden border border-gray-100 group flex flex-col transition-all duration-300 ${
+                            exp.featured
+                                ? "shadow-2xl ring-2 ring-secondary/30"
+                                : "shadow-lg hover:shadow-2xl hover:-translate-y-1"
+                        }`}
+                    >
+                        <div class="h-56 overflow-hidden relative">
+                            <img
+                                src={exp.image}
+                                alt={exp.title}
+                                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                loading={index < 2 ? "eager" : "lazy"}
+                                decoding="async"
+                                width="700"
+                                height="420"
+                                fetchpriority={index === 0 ? "high" : "auto"}
+                            />
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-900/70 to-transparent"></div>
+
+                            <div class="absolute top-4 left-4 bg-white/90 backdrop-blur-sm rounded-2xl w-12 h-12 flex items-center justify-center shadow-lg overflow-hidden">
+                                <span
+                                    class={`material-symbols-rounded ${
+                                        accents[exp.accent].icon
+                                    }`}
+                                >
+                                    {exp.icon}
+                                </span>
+                            </div>
+
+                            {exp.featured && (
+                                <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm text-gray-900 text-xs font-bold px-3 py-1 rounded-full">
+                                    Most requested
+                                </div>
+                            )}
+                        </div>
+
+                        <div class="p-7 flex-grow flex flex-col">
+                            <h3 class="font-serif text-2xl font-bold text-gray-900">
+                                {exp.title}
+                            </h3>
+                            <p class="text-sm text-gray-600 mt-3 leading-relaxed">
+                                {exp.excerpt}
+                            </p>
+
+                            <ul class="mt-5 space-y-2 text-sm text-gray-700">
+                                {exp.highlights.slice(0, 3).map((item) => (
+                                    <li class="flex gap-2 items-start">
+                                        <span class="material-symbols-rounded text-secondary text-base leading-5">
+                                            check_circle
+                                        </span>
+                                        <span>{item}</span>
+                                    </li>
+                                ))}
+                            </ul>
+
+                            <div class="flex flex-wrap gap-2 mt-auto pt-6">
+                                {exp.tags.slice(0, 4).map((tag) => (
+                                    <span class={accents[exp.accent].chip}>
+                                        {tag}
+                                    </span>
+                                ))}
+                            </div>
+
+                            <div class="mt-6 flex items-center justify-between">
+                                <span class="text-secondary font-bold">
+                                    Explore details
+                                </span>
+                                <span class="material-symbols-rounded text-secondary group-hover:translate-x-1 transition-transform">
+                                    arrow_forward
+                                </span>
+                            </div>
+                        </div>
+                    </a>
+                ))}
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 bg-secondary">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-white grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+            <div>
+                <span
+                    class="inline-block px-4 py-1.5 rounded-full bg-white/10 text-white text-xs font-bold uppercase tracking-widest border border-white/20 mb-4"
+                >
+                    Custom Packages
+                </span>
+                <h2 class="font-serif text-4xl md:text-5xl leading-tight">
+                    Tell us what you want. We will build it.
+                </h2>
+                <p class="text-white/85 mt-5 text-lg">
+                    Mix experiences, transport, and excursions into a plan that
+                    matches your dates, level, and pace. For groups and travel
+                    agencies, we offer discounts and coordinated logistics.
+                </p>
+            </div>
+            <div class="flex flex-col sm:flex-row gap-4 lg:justify-end">
+                <a
+                    href="/#contact"
+                    class="bg-white text-secondary px-7 py-3 rounded-xl font-bold shadow-lg shadow-black/20 text-center"
+                >
+                    Request Information
+                </a>
+            </div>
+        </div>
+    </section>
 </BaseLayout>
