@@ -1,0 +1,239 @@
+---
+// Global lightbox modal for any element with data-lightbox="group".
+// Usage on triggers:
+// - data-lightbox="group-name"
+// - data-lightbox-src="/images/..."
+// - data-lightbox-alt="..."
+---
+
+<div
+    class="fixed inset-0 z-[100] hidden items-center justify-center p-4 sm:p-8"
+    data-lightbox-modal
+    aria-hidden="true"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Image viewer"
+>
+    <div
+        class="absolute inset-0 bg-slate-900/90 backdrop-blur-sm"
+        data-lightbox-backdrop
+    ></div>
+
+    <div class="relative w-full max-w-6xl">
+        <button
+            type="button"
+            class="absolute -top-3 -right-3 sm:-top-4 sm:-right-4 z-10 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white flex items-center justify-center transition focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900"
+            data-lightbox-close
+            aria-label="Close"
+        >
+            <span class="material-symbols-rounded text-2xl">close</span>
+        </button>
+
+        <div class="relative rounded-3xl overflow-hidden bg-black/40 border border-white/10 shadow-2xl">
+            <img
+                class="w-full max-h-[82vh] object-contain bg-black"
+                data-lightbox-image
+                src=""
+                alt=""
+                decoding="async"
+            />
+
+            <div class="absolute inset-x-0 bottom-0 p-4 sm:p-5 bg-gradient-to-t from-slate-950/85 via-slate-950/30 to-transparent">
+                <div class="flex items-end justify-between gap-4">
+                    <p
+                        class="text-white/90 text-sm sm:text-base leading-snug"
+                        data-lightbox-caption
+                    ></p>
+                    <p
+                        class="text-white/70 text-xs sm:text-sm font-semibold tabular-nums"
+                        data-lightbox-counter
+                    ></p>
+                </div>
+            </div>
+
+            <button
+                type="button"
+                class="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white flex items-center justify-center transition disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900"
+                data-lightbox-prev
+                aria-label="Previous image"
+            >
+                <span class="material-symbols-rounded text-3xl">chevron_left</span>
+            </button>
+
+            <button
+                type="button"
+                class="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white flex items-center justify-center transition disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900"
+                data-lightbox-next
+                aria-label="Next image"
+            >
+                <span class="material-symbols-rounded text-3xl">chevron_right</span>
+            </button>
+        </div>
+
+        <p class="mt-4 text-center text-white/60 text-xs sm:text-sm">
+            Use left/right arrows to navigate, Esc to close.
+        </p>
+    </div>
+</div>
+
+<script is:inline>
+    (() => {
+        const modal = document.querySelector("[data-lightbox-modal]");
+        if (!modal) return;
+
+        const imgEl = modal.querySelector("[data-lightbox-image]");
+        const captionEl = modal.querySelector("[data-lightbox-caption]");
+        const counterEl = modal.querySelector("[data-lightbox-counter]");
+        const closeBtn = modal.querySelector("[data-lightbox-close]");
+        const prevBtn = modal.querySelector("[data-lightbox-prev]");
+        const nextBtn = modal.querySelector("[data-lightbox-next]");
+
+        if (!imgEl || !captionEl || !counterEl || !closeBtn || !prevBtn || !nextBtn) return;
+
+        const cssEscape =
+            (window.CSS && typeof window.CSS.escape === "function")
+                ? window.CSS.escape.bind(window.CSS)
+                : (value) => String(value).replace(/["\\\\]/g, "\\\\$&");
+
+        let items = [];
+        let index = 0;
+        let groupName = "";
+        let lastActive = null;
+
+        const isOpen = () => modal.getAttribute("aria-hidden") === "false";
+
+        const collectGroup = (name) => {
+            if (!name) return [];
+            try {
+                return Array.from(
+                    document.querySelectorAll(`[data-lightbox="${cssEscape(name)}"]`)
+                );
+            } catch {
+                return Array.from(document.querySelectorAll("[data-lightbox]")).filter(
+                    (el) => el.getAttribute("data-lightbox") === name
+                );
+            }
+        };
+
+        const setCounter = () => {
+            if (!items.length) {
+                counterEl.textContent = "";
+                return;
+            }
+            counterEl.textContent = `${index + 1} / ${items.length}`;
+        };
+
+        const showIndex = (nextIndex) => {
+            if (!items.length) return;
+            const total = items.length;
+            index = ((nextIndex % total) + total) % total;
+
+            const el = items[index];
+            const src =
+                el.getAttribute("data-lightbox-src") ||
+                el.querySelector("img")?.getAttribute("src") ||
+                "";
+            const alt =
+                el.getAttribute("data-lightbox-alt") ||
+                el.querySelector("img")?.getAttribute("alt") ||
+                "";
+
+            imgEl.setAttribute("src", src);
+            imgEl.setAttribute("alt", alt);
+            captionEl.textContent = alt;
+
+            const disableNav = items.length < 2;
+            prevBtn.disabled = disableNav;
+            nextBtn.disabled = disableNav;
+
+            setCounter();
+        };
+
+        const openFrom = (trigger) => {
+            groupName = trigger.getAttribute("data-lightbox") || "";
+            items = collectGroup(groupName);
+            index = Math.max(0, items.indexOf(trigger));
+            lastActive = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+
+            modal.classList.remove("hidden");
+            modal.classList.add("flex");
+            modal.setAttribute("aria-hidden", "false");
+            document.documentElement.classList.add("overflow-hidden");
+            document.body.classList.add("overflow-hidden");
+
+            showIndex(index);
+            closeBtn.focus({ preventScroll: true });
+        };
+
+        const close = () => {
+            if (!isOpen()) return;
+
+            modal.classList.add("hidden");
+            modal.classList.remove("flex");
+            modal.setAttribute("aria-hidden", "true");
+            document.documentElement.classList.remove("overflow-hidden");
+            document.body.classList.remove("overflow-hidden");
+
+            imgEl.setAttribute("src", "");
+            imgEl.setAttribute("alt", "");
+            captionEl.textContent = "";
+            counterEl.textContent = "";
+
+            if (lastActive) lastActive.focus({ preventScroll: true });
+        };
+
+        document.addEventListener("click", (event) => {
+            const target = event.target instanceof Element ? event.target : null;
+            if (!target) return;
+
+            const trigger = target.closest("[data-lightbox]");
+            if (trigger && !target.closest("[data-lightbox-modal]")) {
+                event.preventDefault();
+                openFrom(trigger);
+                return;
+            }
+
+            if (target.closest("[data-lightbox-close]") || target.closest("[data-lightbox-backdrop]")) {
+                event.preventDefault();
+                close();
+                return;
+            }
+
+            if (target.closest("[data-lightbox-prev]")) {
+                event.preventDefault();
+                showIndex(index - 1);
+                return;
+            }
+
+            if (target.closest("[data-lightbox-next]")) {
+                event.preventDefault();
+                showIndex(index + 1);
+            }
+        });
+
+        document.addEventListener("keydown", (event) => {
+            if (!isOpen()) return;
+            if (event.key === "Escape") {
+                event.preventDefault();
+                close();
+                return;
+            }
+            if (event.key === "ArrowLeft") {
+                event.preventDefault();
+                showIndex(index - 1);
+                return;
+            }
+            if (event.key === "ArrowRight") {
+                event.preventDefault();
+                showIndex(index + 1);
+            }
+        });
+
+        // Close if viewport changes orientation/size significantly (mobile UX).
+        window.addEventListener("resize", () => {
+            if (!isOpen()) return;
+            setCounter();
+        });
+    })();
+</script>
+
