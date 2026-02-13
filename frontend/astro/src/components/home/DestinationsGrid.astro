@@ -3,6 +3,29 @@
 const checkoutBase =
     import.meta.env.PUBLIC_WP_CHECKOUT_BASE ?? "/checkout/?add-to-cart=";
 
+const productBase =
+    import.meta.env.PUBLIC_WP_PRODUCT_BASE ??
+    (() => {
+        // If checkoutBase is an absolute URL (common in local dev), derive:
+        //   http://localhost:8081/checkout/?add-to-cart= -> http://localhost:8081/product/
+        if (/^https?:\/\//i.test(checkoutBase)) {
+            try {
+                return new URL("../product/", checkoutBase).toString();
+            } catch {
+                // fall through to default
+            }
+        }
+
+        // Production-safe default (relative). Requires WP to be exposed on the same host.
+        return "/product/";
+    })();
+
+const productUrl = (slug) => {
+    const b = productBase.endsWith("/") ? productBase : `${productBase}/`;
+    const s = String(slug).replace(/^\/+|\/+$/g, "");
+    return `${b}${s}/`;
+};
+
 const packs = [
     {
         title: "Lima Surf Pack",
@@ -11,6 +34,7 @@ const packs = [
         badge: "4 Days",
         meta: "4 Days / 3 Nights • Lima",
         productId: 110,
+        productSlug: "lima-surf-pack",
         description:
             "Surf four iconic Lima beaches with daily sessions, airport pickup, lodging, and meals.",
         includes:
@@ -25,6 +49,7 @@ const packs = [
         badge: "4 Days",
         meta: "4 Days / 3 Nights • Lima",
         productId: 111,
+        productSlug: "lima-kitesurf-pack",
         description:
             "Kitesurf four Lima beaches with coaching, airport pickup, lodging, and meals.",
         includes:
@@ -39,6 +64,7 @@ const packs = [
         badge: "2 Days",
         meta: "2 Days / 1 Night • Lima",
         productId: 112,
+        productSlug: "lima-paragliding-pack",
         description:
             "Paragliding over the Costa Verde with certified pilots, airport pickup, lodging, and meals.",
         includes:
@@ -53,6 +79,7 @@ const packs = [
         badge: "2 Jumps",
         meta: "2 Days / 1 Night • Lima + South Coast",
         productId: 113,
+        productSlug: "tandem-pack",
         description:
             "Two classes and two tandem skydives with full briefing, airport pickup, lodging, and meals.",
         includes:
@@ -67,6 +94,7 @@ const packs = [
         badge: "8 Days",
         meta: "8 Days / 7 Nights • Lima to Mancora",
         productId: 114,
+        productSlug: "blue-crash",
         description:
             "Surf classes and practice across Lima, Huanchaco, Pimentel, and Mancora, two beaches per stop.",
         includes:
@@ -82,6 +110,7 @@ const packs = [
         badge: "4 Days",
         meta: "4 Days / 3 Nights • Lima",
         productId: 115,
+        productSlug: "point-break",
         description:
             "One day of surf, one day of kitesurf, one day of paragliding, and one day of tandem.",
         includes:
@@ -96,6 +125,7 @@ const packs = [
         badge: "5 Days",
         meta: "5 Days / 4 Nights • Lima",
         productId: 116,
+        productSlug: "g-i-trip",
         description:
             "Surf, kitesurf, diving, paragliding, and tandem skydive in five action-packed days.",
         includes:
@@ -110,6 +140,7 @@ const packs = [
         badge: "6 Days",
         meta: "6 Days / 5 Nights • Lima",
         productId: 117,
+        productSlug: "foes-trip",
         description:
             "Surf, kitesurf, paragliding, tandem skydive, plus an MMA training day.",
         includes:
@@ -190,7 +221,7 @@ const packs = [
                             ))}
                         </div>
                         <a
-                            href={`${checkoutBase}${pack.productId}`}
+                            href={productUrl(pack.productSlug)}
                             class="bg-secondary text-white px-5 py-2 rounded-xl font-bold text-center shadow-lg shadow-blue-900/20 hover:bg-blue-700 transition"
                         >
                             {pack.ctaLabel}
