@@ -1,115 +1,96 @@
-﻿# Roadmap - Spots to Surf Peru
+# Roadmap - Spots to Surf Peru
 
-## âœ… Fase 1: Backend Headless (COMPLETADO)
+Ultima actualizacion: 2026-02-13
 
-- [x] Configurar Docker con WordPress + MySQL
-- [x] Instalar y configurar WPGraphQL
-- [x] Instalar y configurar WooCommerce
-- [x] Instalar WooGraphQL (extensiÃ³n GraphQL para WooCommerce)
-- [x] Configurar ACF para paquetes turÃ­sticos
-- [x] Exponer ACF vÃ­a GraphQL
-- [x] Crear tema headless mÃ­nimo
-- [x] Desactivar Gutenberg (editor de bloques)
-- [x] Configurar seguridad bÃ¡sica
-- [x] Crear producto de ejemplo
+## Fase 1: Backend Headless (Completado)
 
-## Fase 1.1: STSP Logistic (EN CURSO)
-- [x] Crear Services (CPT `stsp_service`)
-- [x] Crear Providers (CPT `stsp_provider`) con select de Service
-- [ ] Validar flujo de registro de proveedores en admin
+- [x] Docker: WordPress + MySQL
+- [x] WPGraphQL instalado y configurado
+- [x] WooCommerce instalado y configurado
+- [x] WooGraphQL instalado (GraphQL para WooCommerce)
+- [x] ACF base configurado (headless-friendly)
+- [x] Tema headless minimo
+- [x] Seguridad basica
 
+## Fase 1.1: STSP Logistic (En curso)
 
-## ðŸ”„ Fase 2: Frontend Astro (PRÃ“XIMO)
+- [x] Services (CPT `stsp_service`)
+- [x] Providers (CPT `stsp_provider`) con select de Service
+- [ ] Validar flujo de alta/edicion de proveedores en WP Admin
 
-### 2.1 Setup Inicial
-- [ ] Crear proyecto Astro
-- [ ] Configurar GraphQL client (Apollo o similar)
-- [ ] Crear estructura de carpetas
-- [ ] Configurar variables de entorno
+## Fase 2: Frontend Astro (MVP Completado, Dinamico pendiente)
 
-### 2.2 Componentes Base
-- [ ] Layout principal
-- [ ] Header con navegaciÃ³n
-- [ ] Footer
-- [ ] SEO component
+### 2.1 Setup
 
-### 2.3 PÃ¡ginas Principales
-- [ ] Home page
-- [ ] PÃ¡gina de tours (listado)
-- [ ] PÃ¡gina de tour individual (detalle)
-- [ ] PÃ¡gina de blog
-- [ ] Post individual
-- [ ] PÃ¡gina de contacto
+- [x] Proyecto Astro creado
+- [x] Tailwind configurado (design system en `frontend/astro/src/styles/global.css`)
+- [x] Helper GraphQL disponible (`frontend/astro/src/lib/wordpress.ts`)
+- [x] Estrategia de variables para URLs de WP (`frontend/astro/src/lib/wpUrls.ts`)
 
-### 2.4 IntegraciÃ³n WooCommerce
-- [ ] Listado de productos/tours
-- [ ] Detalle de producto
-- [ ] Carrito de compras
-- [ ] Checkout (integraciÃ³n con WooCommerce)
-- [ ] Pasarela de pago (PayPal, Stripe)
+### 2.2 UI base
 
-### 2.5 OptimizaciÃ³n
-- [ ] ImÃ¡genes optimizadas (Astro Image)
-- [ ] SEO metadata dinÃ¡mico
-- [ ] Sitemap generado
-- [ ] Performance optimization
-- [ ] PWA (opcional)
+- [x] Layout principal (`frontend/astro/src/layouts/BaseLayout.astro`)
+- [x] Header con navegacion
+- [x] Footer
+- [x] SEO basico (title/description por pagina)
 
-## ðŸš€ Fase 3: Despliegue
+### 2.3 Paginas core (Online)
+
+- [x] Home
+- [x] Destinations
+- [x] Experiences: `/services` + `/services/[slug]`
+- [x] Packages: `/packages` + `/packages/[slug]`
+- [x] About + ancla de galeria (`/about#gallery`)
+- [x] Lightbox en galeria About (modal + prev/next + cerrar)
+- [x] Contact
+- [x] Custom trip
+- [ ] Blog
+
+### 2.4 Integracion WooCommerce (Estado actual)
+
+- [x] CTAs "Book now" enlazan al checkout de WooCommerce (add-to-cart) bajo `/wp`
+- [ ] Reemplazar data estatica de packages/services por WooGraphQL + WPGraphQL (SSG)
+- [ ] UX de carrito dentro de Astro (opcional; hoy usamos checkout WP)
+- [ ] Pagos (PayPal/Stripe) y pruebas end-to-end del checkout
+
+### 2.5 Optimizacion
+
+- [ ] Sitemap + robots
+- [ ] OG images + datos estructurados
+- [ ] Estrategia de imagenes (Astro Image/CDN)
+- [ ] Performance pass (Lighthouse, core web vitals)
+
+## Fase 3: Despliegue (Manual listo, Automatizacion pendiente)
 
 ### 3.1 Backend (WordPress)
-- [ ] Migrar a servidor VPS o hosting WordPress
-- [ ] Configurar dominio y SSL
-- [ ] Configurar CORS para GraphQL
-- [ ] Backups automÃ¡ticos
+
+- [x] WordPress en produccion disponible bajo `/wp`
+- [x] Dominio + SSL activos
+- [ ] CORS documentado/validado para consumidores GraphQL
+- [ ] Backups automaticos
 
 ### 3.2 Frontend (Astro)
-- [ ] Deploy en Vercel/Netlify
-- [ ] Configurar dominio
-- [ ] CI/CD automÃ¡tico
-- [ ] Monitoring y analytics
 
-## ðŸ“‹ Fase 4: Contenido y Marketing
+- [x] Deploy a produccion via `scp` a `/home/spots2surfperu/public_html`
+- [ ] CI/CD (build + deploy)
+- [ ] Monitoring + analytics
 
-- [ ] Crear contenido real de tours
-- [ ] Subir imÃ¡genes profesionales
-- [ ] Escribir descripciones SEO-optimizadas
-- [ ] Configurar Google Analytics
-- [ ] Configurar Meta Pixel (Facebook/Instagram)
-- [ ] Email marketing (Newsletter)
+## Fase 4: Contenido y Marketing
 
-## ðŸŽ¨ Fase 5: Mejoras Futuras
+- [ ] Cargar contenido real en WooCommerce (copy + galerias + SEO)
+- [ ] Curacion de fotos profesionales
+- [ ] Analytics (GA4) + Meta Pixel
+- [ ] Email marketing (opcional)
 
-- [ ] Multi-idioma (EspaÃ±ol/InglÃ©s)
-- [ ] Sistema de reservas avanzado
-- [ ] Reviews y testimonios
-- [ ] GalerÃ­a de fotos de clientes
-- [ ] Blog con categorÃ­as
-- [ ] IntegraciÃ³n con redes sociales
-- [ ] Chat en vivo
-- [ ] Sistema de cupones/descuentos
+## Fase 5: Mejoras futuras
 
-## ðŸ”§ Mantenimiento Continuo
+- [ ] Multi-idioma (ES/EN)
+- [ ] Reviews/testimonios
+- [ ] Blog con categorias + workflow editorial
+- [ ] Cupones/descuentos (grupos/agencias)
+- [ ] Live chat
 
-- [ ] Actualizar WordPress y plugins mensualmente
-- [ ] Revisar seguridad
-- [ ] Optimizar base de datos
-- [ ] Monitorear rendimiento
-- [ ] Actualizar contenido
+## Proximo paso inmediato
 
----
-
-## ðŸ“… Timeline Estimado
-
-| Fase | DuraciÃ³n Estimada |
-|------|-------------------|
-| Fase 1 (Backend) | âœ… Completado |
-| Fase 2 (Frontend) | 2-3 semanas |
-| Fase 3 (Deploy) | 1 semana |
-| Fase 4 (Contenido) | Continuo |
-| Fase 5 (Mejoras) | Continuo |
-
-## Proximo Paso Inmediato
-
-**Mejorar la vista de producto (layout/espaciado/galería) en WooCommerce headless**
+Conectar Packages/Experiences a WordPress (WooGraphQL/WPGraphQL) para que el contenido sea 100% dinamico y se mantenga sincronizado con WooCommerce.
 

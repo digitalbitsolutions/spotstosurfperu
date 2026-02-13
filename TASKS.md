@@ -1,72 +1,55 @@
-﻿# ðŸ„â€â™‚ï¸ Tareas - Spots to Surf Peru
+# Tareas - Spots to Surf Peru
 
-## ðŸŸ¢ Estado Actual
-- **Arquitectura:** Monorepo profesional (`/backend` y `/frontend`).
-- **Backend:** WordPress Headless configurado con WPGraphQL, WooCommerce y ACF. Limpio de contenido de ejemplo.
-- **Frontend:** Astro + Tailwind v4 con Sistema de DiseÃ±o "Costa Sagrada" (Mockup Home estÃ¡tico completado).
-- **Conectividad:** `wpFetch` helper configurado para consumir GraphQL.
+Ultima actualizacion: 2026-02-13
 
----
+## Estado actual (resumen)
 
-## ðŸ”¥ Prioridad PrÃ³xima: Venta Online & Packs
-*Objetivo: Modelar y exponer los productos para que el frontend pueda consumirlos dinÃ¡micamente.*
+- Arquitectura: monorepo (`/backend` y `/frontend`).
+- Backend: WordPress headless con WPGraphQL + WooCommerce + ACF + WooGraphQL.
+- Frontend: Astro + Tailwind (sitio estatico) con paginas publicas ya online.
+- Checkout: los CTAs van a WooCommerce bajo `/wp` usando `add-to-cart`.
+- About gallery: lightbox/modal con navegacion (prev/next) y cerrar (click/Esc).
+- Deploy: manual via `npm run build` + `scp` al hosting.
 
+## Prioridad proxima (commerce dinamico)
 
-### ✅ Siguiente acción inmediata
-- [ ] **Mejorar la vista de producto (layout/espaciado/galería) en WooCommerce headless.**
+Objetivo: reemplazar data estatica por datos reales de WooCommerce/WPGraphQL y dejar el sitio listo para vender.
 
-### ðŸ› ï¸ Backend (Modelado de Datos)
-- [x] **STSP Logistic (Backoffice):**
-  - Services (CPT `stsp_service`) con nombre unicamente.
-  - Providers (CPT `stsp_provider`) con select de Service.
-  - Mostrar ambos como subitems bajo STSP Logistic.
-- [ ] **Ampliar formulario de Providers (STSP Logistic):**
-  - Definir campos adicionales por tipo de servicio.
-  - Validar flujo de alta y edicion de proveedores en admin.
-- [ ] **Modelar "Surf Packs" con ACF:**
-  - Crear Field Group para Tours/Packs (Nivel de surf, DuraciÃ³n, Incluye, GalerÃ­a especÃ­fica).
-  - Asegurar que los campos estÃ©n expuestos en `show_in_graphql`.
-- [ ] **Configurar WooCommerce para Headless:**
-  - Crear categorÃ­as: `Tours`, `Packs de Alojamiento`, `Clases`.
-  - Crear los primeros 3 productos reales (ej. "Pack MÃ¡ncora 7 dÃ­as").
-- [ ] **OptimizaciÃ³n GraphQL:**
-  - Probar queries para obtener productos + campos ACF vinculados.
+### Backend (WooCommerce / WPGraphQL)
 
-### ðŸŽ¨ Frontend (Desarrollo DinÃ¡mico)
-- [ ] **Componente `PackCard.astro`:** Crear versiÃ³n dinÃ¡mica que reciba datos de WP.
-- [ ] **SecciÃ³n de Packs en Home:** Sustituir los destinos estÃ¡ticos por una query real de productos/packs.
-- [ ] **PÃ¡ginas de Producto (SSG/SSR):** Crear ruta dinÃ¡mica `src/pages/packs/[slug].astro`.
-- [ ] **IntegraciÃ³n de Reservas:** BotÃ³n que enlace al carrito de WooCommerce o a un formulario de reserva pre-llenado.
+- [ ] Crear/ordenar productos reales en WooCommerce (slugs estables).
+- [ ] Completar galerias de producto (featured + gallery) en WP.
+- [ ] Categorias/atributos para filtrar packs (destino, duracion, nivel, etc).
+- [ ] Validar queries WooGraphQL para: listado + detalle + imagenes + short description.
+- [ ] Configurar pagos (PayPal/Stripe) y testear checkout.
+- [ ] Descuentos: cupones para grupos/agencias (definir reglas).
 
----
+### Frontend (Astro)
 
-## ðŸ“ Tareas Pendientes Generales
+- [ ] Sustituir `frontend/astro/src/data/packages.ts` por fetch real (SSG) desde WooGraphQL/WPGraphQL.
+- [ ] Sustituir `frontend/astro/src/data/experiences.ts` por fetch real (o modelado en WP).
+- [ ] Mapear slugs del frontend a slugs/product IDs reales (sin hardcode en varios lugares).
+- [ ] Mejoras SEO: OG tags, schema.org, sitemap, robots.
+- [ ] Analytics (GA4) + eventos (CTA, add-to-cart, contact).
 
-### ðŸ“¦ Contenido & SEO
-- [ ] Subir imÃ¡genes reales de alta calidad a la librerÃ­a de medios.
-- [ ] Configurar SEO bÃ¡sico en WordPress (Yoast/RankMath) y su exposiciÃ³n en la API.
-- [ ] Escribir los textos "Sobre Nosotros" definitivos.
+### Infra / DX
 
-### ðŸ’³ E-commerce & Checkout
-- [ ] Configurar pasarela de pagos (Sandbox de PayPal/Stripe).
-- [ ] Definir flujo de checkout (Â¿Directo en WP admin o embebido en Astro?).
+- [ ] Documentar y automatizar backups (DB + wp-content uploads si aplica).
+- [ ] Definir CI/CD (build + deploy) o al menos scripts reproducibles.
 
-### ðŸ”§ Infraestructura & DX
-- [ ] **Script de Backup:** Automatizar el backup de la DB del contenedor.
-- [ ] **Deployment:** Definir hosting (ej. Vercel para Astro, VPS/DigitalOcean para WP).
+## Hecho recientemente
 
----
+- [x] Experiences: `/services` + `/services/[slug]` (copy optimizado + CTA sin precios).
+- [x] Packages: `/packages` + `/packages/[slug]` con CTA a checkout WooCommerce.
+- [x] About: galeria Mancora agregada.
+- [x] Lightbox/modal para imagenes de la galeria (prev/next/cerrar, teclado).
+- [x] Produccion: deploy actualizado en `https://spotstosurfperu.com/`.
 
-## âœ… Checklist de Progreso
-- [x] ReestructuraciÃ³n de carpetas (Backend/Frontend)
-- [x] InstalaciÃ³n Astro + Tailwind v4
-- [x] Mockup visual "Costa Sagrada" aplicado
-- [x] Limpieza de contenido basura en WP
+## Notas
 
----
-
-## ðŸ“… Notas
-- **Ultima actualizacion:** 2026-02-12
-- **Enfoque actual:** Mejorar la vista de producto (layout/espaciado/galería) en WooCommerce headless.
-
+- En produccion WordPress esta montado bajo `/wp` (checkout/product).
+- Variables usadas en frontend para enlaces a WP:
+  - `PUBLIC_WP_CHECKOUT_BASE`
+  - `PUBLIC_WP_PRODUCT_BASE`
+  - `WP_GRAPHQL_URL`
 
