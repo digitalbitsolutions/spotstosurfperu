@@ -119,17 +119,27 @@
                                 const n = String(i + 1).padStart(2, "0");
                                 return `/images/gallery-mancora-${n}.webp`;
                             }).map((src, index) => (
-                                <div class="relative aspect-square overflow-hidden rounded-2xl">
+                                <button
+                                    type="button"
+                                    class="group/thumb relative aspect-square overflow-hidden rounded-2xl cursor-zoom-in focus:outline-none focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+                                    data-lightbox="about-gallery"
+                                    data-lightbox-src={src}
+                                    data-lightbox-alt={`Mancora trip photo ${index + 1}`}
+                                    aria-label={`Open image ${index + 1} in viewer`}
+                                >
                                     <img
                                         src={src}
                                         alt={`Mancora trip photo ${index + 1}`}
-                                        class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
+                                        class="w-full h-full object-cover group-hover:scale-[1.03] group-hover/thumb:scale-105 transition-transform duration-500"
                                         loading="lazy"
                                         decoding="async"
                                         width="320"
                                         height="320"
                                     />
-                                </div>
+                                    <div class="absolute inset-0 opacity-0 group-hover/thumb:opacity-100 transition-opacity duration-200 bg-slate-900/30 flex items-center justify-center">
+                                        <span class="material-symbols-rounded text-white text-3xl">zoom_in</span>
+                                    </div>
+                                </button>
                             ))}
                         </div>
 

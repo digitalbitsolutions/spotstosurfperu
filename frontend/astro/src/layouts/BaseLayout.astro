@@ -1,8 +1,9 @@
 ---
 // frontend/astro/src/layouts/BaseLayout.astro
-import "../styles/global.css"; // Asegúrate de tener estilos globales
+import "../styles/global.css"; // Asegurate de tener estilos globales
 import Header from "../components/common/Header.astro";
 import Footer from "../components/common/Footer.astro";
+import LightboxModal from "../components/common/LightboxModal.astro";
 
 interface Props {
     title: string;
@@ -32,5 +33,7 @@ const { title, description = "Spots to Surf Peru - Premium Surf Experiences" } =
         </main>
 
         <Footer />
+        <LightboxModal />
     </body>
 </html>
+

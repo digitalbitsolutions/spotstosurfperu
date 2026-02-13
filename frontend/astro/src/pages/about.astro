@@ -172,12 +172,10 @@ try {
 
                     <div
                         class="absolute top-0 right-0 w-28 h-28 bg-orange-100 rounded-full -z-10 blur-3xl opacity-50"
-                    >
-                    </div>
+                    ></div>
                     <div
                         class="absolute bottom-0 left-6 w-44 h-44 bg-blue-100 rounded-full -z-10 blur-3xl opacity-50"
-                    >
-                    </div>
+                    ></div>
                 </div>
             </div>
         </div>
@@ -185,7 +183,9 @@ try {
 
     <section id="gallery" class="pb-16 lg:pb-24 scroll-mt-24">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col lg:flex-row items-start lg:items-end justify-between gap-6 mb-10">
+            <div
+                class="flex flex-col lg:flex-row items-start lg:items-end justify-between gap-6 mb-10"
+            >
                 <div>
                     <span
                         class="bg-orange-50 text-primary px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-4 inline-block border border-orange-200"
@@ -204,7 +204,7 @@ try {
                     href="/contact"
                     class="inline-flex items-center gap-2 text-secondary font-semibold hover:text-blue-700 transition"
                 >
-                    Let’s plan yours
+                    Let's plan yours
                     <span class="material-symbols-rounded text-lg"
                         >arrow_forward</span
                     >
@@ -214,8 +214,13 @@ try {
             {galleryImages.length ? (
                 <div class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
                     {galleryImages.map((image, index) => (
-                        <div
-                            class="group relative overflow-hidden rounded-2xl shadow-lg border border-gray-100 bg-white"
+                        <button
+                            type="button"
+                            class="group relative overflow-hidden rounded-2xl shadow-lg border border-gray-100 bg-white cursor-zoom-in focus:outline-none focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+                            data-lightbox="about-gallery"
+                            data-lightbox-src={`/images/${image}`}
+                            data-lightbox-alt={`Spots To Surf Peru gallery photo ${index + 1}`}
+                            aria-label={`Open gallery image ${index + 1} in viewer`}
                         >
                             <img
                                 src={`/images/${image}`}
@@ -224,7 +229,12 @@ try {
                                 loading="lazy"
                                 decoding="async"
                             />
-                        </div>
+                            <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-slate-900/30 flex items-center justify-center">
+                                <span class="material-symbols-rounded text-white text-4xl"
+                                    >zoom_in</span
+                                >
+                            </div>
+                        </button>
                     ))}
                 </div>
             ) : (
@@ -235,3 +245,4 @@ try {
         </div>
     </section>
 </BaseLayout>
+
