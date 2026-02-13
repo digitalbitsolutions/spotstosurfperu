@@ -1,134 +1,67 @@
-﻿# Agent Configuration - Spots to Surf Peru Backend
+# Agent Configuration - Spots to Surf Peru
 
-Este directorio contiene workflows automatizados para facilitar el desarrollo y mantenimiento del backend WordPress Headless.
+Proyecto headless:
+- Frontend: Astro (sitio estatico).
+- Backend: WordPress minimo (solo headless + WooCommerce).
 
-## ðŸ¤– Workflows Disponibles
+Este documento guarda la informacion necesaria para conectar y desplegar sin exponer secretos.
 
-### Desarrollo Diario
+## Estructura local
+- `frontend/astro`: app Astro (build estatico).
+- `backend/wordpress`: WordPress local (tema headless y plugins).
+- `.secrets`: llaves SSH locales (no commitear).
+- `wp-config-prod.php`: plantilla de config prod (sin credenciales).
 
-- **`start-dev.md`** - Iniciar el entorno de desarrollo
-  - Levanta todos los contenedores de Docker
-  - Verifica que los servicios estÃ©n corriendo
-  - Muestra las URLs de acceso
+## Acceso a produccion (sin secretos)
+- Host/IP: `104.194.9.236`
+- Puerto SSH: `9505`
+- Usuario SSH: `spots2surfperu`
+- Home remoto: `/home/spots2surfperu`
+- Web root (Astro): `/home/spots2surfperu/public_html`
+- WordPress root: `/home/spots2surfperu/backend/wp`
+- Dominio: `spotstosurfperu.com`
 
-- **`stop-dev.md`** - Detener el entorno de desarrollo
-  - Detiene todos los contenedores de forma segura
-  - Conserva los datos en los volÃºmenes
+### SSH
+Llave privada local:
+- `D:\spotstosurfperu.com\.secrets\id_rsa`
 
-- **`restart.md`** - Reiniciar todos los servicios
-  - Ãštil cuando algo no funciona correctamente
-  - Reinicia WordPress y MySQL
-
-### Testing y VerificaciÃ³n
-
-- **`test-graphql.md`** - Verificar el endpoint GraphQL
-  - Ejecuta una consulta de prueba
-  - Verifica que los productos se devuelven correctamente
-
-- **`list-plugins.md`** - Listar plugins instalados
-  - Muestra todos los plugins y su estado
-  - Ãštil para verificar la configuraciÃ³n
-
-### GestiÃ³n de Contenido
-
-- **`create-product.md`** - Crear un nuevo producto de tour
-  - Crea productos con campos ACF
-  - Configura precio y stock de WooCommerce
-
-### Mantenimiento
-
-- **`backup-db.md`** - Crear backup de la base de datos
-  - Genera un backup con timestamp
-  - Guarda en el directorio `backups/`
-
-- **`view-logs.md`** - Ver logs de WordPress
-  - Muestra logs en tiempo real
-  - Ãštil para debugging
-
-## ðŸš€ CÃ³mo Usar los Workflows
-
-### Desde el chat con el agente:
-
-Simplemente menciona el nombre del workflow:
-
+Ejemplo de conexion:
 ```
-"Ejecuta start-dev"
-"Corre el workflow de backup"
-"Necesito ver los logs"
+ssh -i D:\spotstosurfperu.com\.secrets\id_rsa -p 9505 spots2surfperu@104.194.9.236
 ```
 
-### Manualmente:
+Nota: la passphrase no se guarda aqui. Usar `ssh-agent` o introducirla manualmente.
 
-Cada workflow contiene los comandos exactos que puedes copiar y pegar en tu terminal.
+## Deploy del frontend (Astro)
+1. `cd frontend/astro`
+2. `npm install`
+3. `npm run build` (salida en `frontend/astro/dist`)
+4. Subir `dist/` a `/home/spots2surfperu/public_html` reemplazando el contenido.
 
-## ðŸ“‹ Workflows Recomendados por SituaciÃ³n
-
-### Al iniciar el dÃ­a
-1. `start-dev.md` - Levantar el entorno
-
-### Antes de hacer cambios importantes
-1. `backup-db.md` - Crear backup de seguridad
-
-### Al terminar el dÃ­a
-1. `stop-dev.md` - Detener servicios
-
-### Si algo no funciona
-1. `view-logs.md` - Ver quÃ© estÃ¡ pasando
-2. `restart.md` - Reiniciar servicios
-
-### Antes de deploy
-1. `backup-db.md` - Backup final
-2. `test-graphql.md` - Verificar que todo funciona
-
-## ðŸ”§ PersonalizaciÃ³n
-
-Puedes crear tus propios workflows siguiendo este formato:
-
-```markdown
----
-description: DescripciÃ³n breve del workflow
----
-
-# Workflow: Nombre del Workflow
-
-DescripciÃ³n detallada.
-
-## Pasos
-
-1. Primer paso
-\`\`\`bash
-comando
-\`\`\`
-
-2. Segundo paso
-\`\`\`bash
-otro comando
-\`\`\`
+Ejemplo con rsync (Windows):
 ```
-
-## STSP Logistic
-- Plugin: `backend/wordpress/wp-content/plugins/stsp-logistic/stsp-logistic.php`.
-- CPTs: `stsp_service` (Services) y `stsp_provider` (Providers).
+rsync -av --delete dist/ spots2surfperu@104.194.9.236:/home/spots2surfperu/public_html/ -e "ssh -p 9505 -i D:\spotstosurfperu.com\.secrets\id_rsa"
+```
 
-## ðŸ“ Notas
+## Deploy del backend (WordPress headless)
+Solo hay cambios en tema y plugins (no hay tema publico).
 
-- Los workflows con `// turbo-all` se ejecutan automÃ¡ticamente sin confirmaciÃ³n
-- Los workflows sin esta anotaciÃ³n requieren confirmaciÃ³n para cada paso
-- Todos los comandos estÃ¡n optimizados para PowerShell en Windows
+Rutas:
+- Local tema: `backend/wordpress/wp-content/themes/headless`
+- Remoto tema: `/home/spots2surfperu/backend/wp/wp-content/themes/headless`
+- Local plugins: `backend/wordpress/wp-content/plugins`
+- Remoto plugins: `/home/spots2surfperu/backend/wp/wp-content/plugins`
 
-## ðŸ†˜ Soporte
+Ejemplo (tema):
+```
+rsync -av backend/wordpress/wp-content/themes/headless/ spots2surfperu@104.194.9.236:/home/spots2surfperu/backend/wp/wp-content/themes/headless/ -e "ssh -p 9505 -i D:\spotstosurfperu.com\.secrets\id_rsa"
+```
 
-Si un workflow falla:
-1. Verifica que Docker Desktop estÃ¡ corriendo
-2. Revisa los logs con `view-logs.md`
-3. Intenta reiniciar con `restart.md`
-4. Si persiste, consulta `MIGRATION.md` para troubleshooting
+## Base de datos
+- Las credenciales de DB se guardan fuera del repo (password manager).
+- Usar phpMyAdmin en cPanel o WP-CLI si esta disponible.
+- Si se cambian URLs, ejecutar search-replace en DB.
 
-## ðŸ”— Recursos Relacionados
-
-- `README.md` - DocumentaciÃ³n principal del proyecto
-- `ROADMAP.md` - Hoja de ruta del proyecto
-- `TASKS.md` - Tareas pendientes
-- `MIGRATION.md` - GuÃ­a de migraciÃ³n
-
-
+## Seguridad
+- No commitear `.secrets`, llaves privadas ni passwords.
+- Mantener `id_rsa` solo en la maquina local.
