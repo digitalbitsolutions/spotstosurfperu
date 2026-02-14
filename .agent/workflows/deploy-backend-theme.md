@@ -11,17 +11,16 @@ Sube el tema headless desde `backend/wordpress/wp-content/themes/headless` al Wo
 1. (Opcional) Validar conexion SSH
 ```bash
 cd d:\spotstosurfperu.com
-ssh -i .secrets\id_rsa -p 9505 spots2surfperu@104.194.9.236 "echo ok"
+ssh -i .secrets\id_rsa_for_ssh_nopass -p 9505 spots2surfperu@104.194.9.236 "echo ok"
 ```
 
 2. Limpiar tema remoto
 ```bash
-ssh -i .secrets\id_rsa -p 9505 spots2surfperu@104.194.9.236 "rm -rf /home/spots2surfperu/public_html/wp/wp-content/themes/headless/*"
+ssh -i .secrets\id_rsa_for_ssh_nopass -p 9505 spots2surfperu@104.194.9.236 "rm -rf /home/spots2surfperu/public_html/wp/wp-content/themes/headless/*"
 ```
 
 3. Subir tema
 ```bash
 cd d:\spotstosurfperu.com
-scp -i .secrets\id_rsa -P 9505 -r backend/wordpress/wp-content/themes/headless/* spots2surfperu@104.194.9.236:/home/spots2surfperu/public_html/wp/wp-content/themes/headless/
+scp -i .secrets\id_rsa_for_ssh_nopass -P 9505 -r backend/wordpress/wp-content/themes/headless/* spots2surfperu@104.194.9.236:/home/spots2surfperu/public_html/wp/wp-content/themes/headless/
 ```
-

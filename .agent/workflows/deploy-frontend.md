@@ -25,18 +25,18 @@ npm run build
 2. Verificar conexion SSH
 ```bash
 cd d:\spotstosurfperu.com
-ssh -i .secrets\id_rsa -p 9505 spots2surfperu@104.194.9.236 "echo ok"
+ssh -i .secrets\id_rsa_for_ssh_nopass -p 9505 spots2surfperu@104.194.9.236 "echo ok"
 ```
 
 3. Limpiar web root remoto (preservar WordPress y archivos especiales)
 ```bash
-ssh -i .secrets\id_rsa -p 9505 spots2surfperu@104.194.9.236 "cd /home/spots2surfperu/public_html && find . -maxdepth 1 -mindepth 1 ! -name wp ! -name .htaccess ! -name .well-known ! -name cgi-bin -exec rm -rf {} +"
+ssh -i .secrets\id_rsa_for_ssh_nopass -p 9505 spots2surfperu@104.194.9.236 "cd /home/spots2surfperu/public_html && find . -maxdepth 1 -mindepth 1 ! -name wp ! -name .htaccess ! -name .well-known ! -name cgi-bin -exec rm -rf {} +"
 ```
 
 4. Subir `dist/` por scp
 ```bash
 cd d:\spotstosurfperu.com\frontend\astro
-scp -i ..\..\.secrets\id_rsa -P 9505 -r dist\* spots2surfperu@104.194.9.236:/home/spots2surfperu/public_html/
+scp -i ..\..\.secrets\id_rsa_for_ssh_nopass -P 9505 -r dist\* spots2surfperu@104.194.9.236:/home/spots2surfperu/public_html/
 ```
 
 5. Verificar online
@@ -46,4 +46,3 @@ curl.exe -I https://spotstosurfperu.com/services/
 curl.exe -I https://spotstosurfperu.com/packages/
 curl.exe -I https://spotstosurfperu.com/about/#gallery
 ```
-

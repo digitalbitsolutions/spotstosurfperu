@@ -28,17 +28,17 @@ Nota: En produccion WordPress esta montado bajo `/wp` (checkout/product).
 
 ## SSH
 
-Llave privada local (ejemplo):
+Llave privada local (recomendada para deploy, sin passphrase):
 
-- `D:\spotstosurfperu.com\.secrets\id_rsa`
+- `D:\spotstosurfperu.com\.secrets\id_rsa_for_ssh_nopass`
 
 Ejemplo de conexion:
 
 ```bash
-ssh -i D:\spotstosurfperu.com\.secrets\id_rsa -p 9505 spots2surfperu@104.194.9.236
+ssh -i D:\spotstosurfperu.com\.secrets\id_rsa_for_ssh_nopass -p 9505 spots2surfperu@104.194.9.236
 ```
 
-Nota: la passphrase no se guarda aqui. Usar `ssh-agent` o introducirla manualmente.
+Nota: si usas una key con passphrase, usar `ssh-agent` o introducirla manualmente.
 
 ### Windows: error "UNPROTECTED PRIVATE KEY FILE"
 
@@ -46,9 +46,10 @@ Si OpenSSH ignora la key por permisos muy abiertos, restringe el ACL (ejemplo):
 
 ```powershell
 $u = "$env:USERDOMAIN\\$env:USERNAME"
-icacls D:\spotstosurfperu.com\.secrets\id_rsa /inheritance:r
-icacls D:\spotstosurfperu.com\.secrets\id_rsa /grant:r "${u}:(F)"
-icacls D:\spotstosurfperu.com\.secrets\id_rsa /remove "NT AUTHORITY\\Authenticated Users" "BUILTIN\\Users" "BUILTIN\\Administrators" "NT AUTHORITY\\SYSTEM"
+$key = "D:\\spotstosurfperu.com\\.secrets\\id_rsa_for_ssh_nopass"
+icacls $key /inheritance:r
+icacls $key /grant:r "${u}:(F)"
+icacls $key /remove "NT AUTHORITY\\Authenticated Users" "BUILTIN\\Users" "BUILTIN\\Administrators" "NT AUTHORITY\\SYSTEM"
 ```
 
 ## Frontend env vars (Astro)
@@ -81,8 +82,8 @@ Nota: en este host (jailshell) `rsync` no esta disponible. Usar `scp` + limpieza
 Ejemplo (Windows):
 
 ```bash
-ssh -i D:\spotstosurfperu.com\.secrets\id_rsa -p 9505 spots2surfperu@104.194.9.236 "cd /home/spots2surfperu/public_html && find . -maxdepth 1 -mindepth 1 ! -name wp ! -name .htaccess ! -name .well-known ! -name cgi-bin -exec rm -rf {} +"
-scp -i D:\spotstosurfperu.com\.secrets\id_rsa -P 9505 -r dist/* spots2surfperu@104.194.9.236:/home/spots2surfperu/public_html/
+ssh -i D:\spotstosurfperu.com\.secrets\id_rsa_for_ssh_nopass -p 9505 spots2surfperu@104.194.9.236 "cd /home/spots2surfperu/public_html && find . -maxdepth 1 -mindepth 1 ! -name wp ! -name .htaccess ! -name .well-known ! -name cgi-bin -exec rm -rf {} +"
+scp -i D:\spotstosurfperu.com\.secrets\id_rsa_for_ssh_nopass -P 9505 -r dist/* spots2surfperu@104.194.9.236:/home/spots2surfperu/public_html/
 ```
 
 ## Deploy del backend (WordPress headless)
@@ -99,8 +100,8 @@ Rutas:
 Ejemplo (tema):
 
 ```bash
-ssh -i D:\spotstosurfperu.com\.secrets\id_rsa -p 9505 spots2surfperu@104.194.9.236 "rm -rf /home/spots2surfperu/public_html/wp/wp-content/themes/headless/*"
-scp -i D:\spotstosurfperu.com\.secrets\id_rsa -P 9505 -r backend/wordpress/wp-content/themes/headless/* spots2surfperu@104.194.9.236:/home/spots2surfperu/public_html/wp/wp-content/themes/headless/
+ssh -i D:\spotstosurfperu.com\.secrets\id_rsa_for_ssh_nopass -p 9505 spots2surfperu@104.194.9.236 "rm -rf /home/spots2surfperu/public_html/wp/wp-content/themes/headless/*"
+scp -i D:\spotstosurfperu.com\.secrets\id_rsa_for_ssh_nopass -P 9505 -r backend/wordpress/wp-content/themes/headless/* spots2surfperu@104.194.9.236:/home/spots2surfperu/public_html/wp/wp-content/themes/headless/
 ```
 
 ## Base de datos
@@ -113,4 +114,3 @@ scp -i D:\spotstosurfperu.com\.secrets\id_rsa -P 9505 -r backend/wordpress/wp-co
 
 - No commitear `.secrets`, llaves privadas ni passwords.
 - Mantener llaves solo en la maquina local.
-

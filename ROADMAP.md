@@ -1,6 +1,6 @@
 # Roadmap - Spots to Surf Peru
 
-Ultima actualizacion: 2026-02-13
+Ultima actualizacion: 2026-02-14
 
 ## Fase 1: Backend Headless (Completado)
 
@@ -32,6 +32,7 @@ Ultima actualizacion: 2026-02-13
 - [x] Layout principal (`frontend/astro/src/layouts/BaseLayout.astro`)
 - [x] Header con navegacion
 - [x] Footer
+- [x] Branding: logo + favicon + credit en footer
 - [x] SEO basico (title/description por pagina)
 
 ### 2.3 Paginas core (Online)
@@ -92,5 +93,4 @@ Ultima actualizacion: 2026-02-13
 
 ## Proximo paso inmediato
 
-Conectar Packages/Experiences a WordPress (WooGraphQL/WPGraphQL) para que el contenido sea 100% dinamico y se mantenga sincronizado con WooCommerce.
-
+Arreglar el responsive del frontend (mobile/tablet) para Home, Packages, Services, About y Contact.

@@ -1,15 +1,26 @@
 # Tareas - Spots to Surf Peru
 
-Ultima actualizacion: 2026-02-13
+Ultima actualizacion: 2026-02-14
 
 ## Estado actual (resumen)
 
 - Arquitectura: monorepo (`/backend` y `/frontend`).
 - Backend: WordPress headless con WPGraphQL + WooCommerce + ACF + WooGraphQL.
 - Frontend: Astro + Tailwind (sitio estatico) con paginas publicas ya online.
+- Branding: logo actualizado + favicon + credit "Powered by DBS".
 - Checkout: los CTAs van a WooCommerce bajo `/wp` usando `add-to-cart`.
 - About gallery: lightbox/modal con navegacion (prev/next) y cerrar (click/Esc).
 - Deploy: manual via `npm run build` + `scp` al hosting.
+
+## Prioridad inmediata (responsive)
+
+Objetivo: que la web se vea y funcione bien en mobile/tablet (sin cortes, sin desbordes, buena navegacion).
+
+- [ ] Revisar header en mobile (logo, spacing, CTA y boton menu) y definir menu mobile (drawer o dropdown).
+- [ ] Auditar Home: hero + grids/cards + secciones (breakpoints `sm/md/lg`).
+- [ ] Auditar `/packages`, `/packages/[slug]`, `/services`, `/services/[slug]`, `/about` (gallery/lightbox) y `/contact` (form).
+- [ ] Validar imagenes (aspect-ratio, object-fit) y evitar CLS (saltos de layout).
+- [ ] Pasada final: iPhone/Android + tablet + desktop (Chrome/Safari).
 
 ## Prioridad proxima (commerce dinamico)
 
@@ -44,6 +55,9 @@ Objetivo: reemplazar data estatica por datos reales de WooCommerce/WPGraphQL y d
 - [x] About: galeria Mancora agregada.
 - [x] Lightbox/modal para imagenes de la galeria (prev/next/cerrar, teclado).
 - [x] Produccion: deploy actualizado en `https://spotstosurfperu.com/`.
+- [x] Header: logo actualizado (sin texto) usando `frontend/astro/public/images/logo.webp`.
+- [x] Footer: agregado "Powered by DBS" con link externo (`target="_blank"`).
+- [x] Favicon: generado `favicon.ico` + PNGs + `apple-touch-icon.png` desde `frontend/astro/public/images/ico.webp`.
 
 ## Notas
 
@@ -52,4 +66,3 @@ Objetivo: reemplazar data estatica por datos reales de WooCommerce/WPGraphQL y d
   - `PUBLIC_WP_CHECKOUT_BASE`
   - `PUBLIC_WP_PRODUCT_BASE`
   - `WP_GRAPHQL_URL`
-
